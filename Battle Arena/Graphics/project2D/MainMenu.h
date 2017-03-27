@@ -1,8 +1,9 @@
 #pragma once
-#include "GameModeState.h"
-#include "MenuBox.h"
 #include <vector>
 #include <string>
+#include "GameModeState.h"
+#include "MenuBox.h"
+#include "MainMenuOptionMenuBox.h"
 
 class MessageBar;
 class MainMenuOption;
@@ -33,8 +34,8 @@ public:
 
 protected:
 	MessageBar* m_titleBar;
-	std::vector<MainMenuOption*> m_menuOptions;
-	MenuBox<MainMenuOption> m_mainMenuBox;	//TODO change to MainMenuOptionMenuBox derived class
+	std::vector<MainMenuOption> m_menuOptions;
+	MainMenuOptionMenuBox* m_mainMenuBox;	//TODO change to MainMenuOptionMenuBox derived class
 	//TODO menubox allowing player to exit the game
 };
 

@@ -10,7 +10,7 @@ const float AgentHuman::ATTACK_MENU_YPOS = 197;
 
 AgentHuman::AgentHuman() : m_targetArrow(nullptr)
 {
-	m_attackMenu = MenuBox<Attack>(std::vector<Attack*>{}, ATTACK_MENU_XPOS, ATTACK_MENU_YPOS);
+	m_attackMenu = AttackMenuBox(std::vector<Attack*>{}, ATTACK_MENU_XPOS, ATTACK_MENU_YPOS);
 }
 
 AgentHuman::AgentHuman(aie::Texture * targetArrow) : m_targetArrow(targetArrow), m_attackMenu(std::vector<Attack*>{}, ATTACK_MENU_XPOS, ATTACK_MENU_YPOS)

@@ -1,6 +1,6 @@
 #pragma once
 #include "Agent.h"
-#include "MenuBox.h"
+#include "AttackMenuBox.h"
 #include <vector>
 
 class AgentHuman :
@@ -28,7 +28,7 @@ protected:
 	// Decrement m_targetIter unless it passes beginning of vector
 	void DecrementTargetChoice();
 
-	MenuBox<Attack> m_attackMenu;
+	AttackMenuBox m_attackMenu;
 	aie::Texture* m_targetArrow;
 	std::vector<size_t> m_targetChoices;
 	std::vector<size_t>::iterator m_targetIter;

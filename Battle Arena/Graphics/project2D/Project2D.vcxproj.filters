@@ -90,6 +90,12 @@
     <ClCompile Include="MaximizeDamagePercent.cpp">
       <Filter>Source Files\AI Behaviours</Filter>
     </ClCompile>
+    <ClCompile Include="AttackMenuBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuOptionMenuBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application2D.h">
@@ -154,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="MaximizeDamagePercent.h">
       <Filter>Header Files\AI Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackMenuBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuOptionMenuBox.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

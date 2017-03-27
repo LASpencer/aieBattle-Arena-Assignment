@@ -94,6 +94,7 @@
     <ClCompile Include="AgentHuman.cpp" />
     <ClCompile Include="Application2D.cpp" />
     <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="AttackMenuBox.cpp" />
     <ClCompile Include="Battle.cpp" />
     <ClCompile Include="Behaviour.cpp" />
     <ClCompile Include="Creature.cpp" />
@@ -102,6 +103,7 @@
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="MainMenuOptionMenuBox.cpp" />
     <ClCompile Include="MaximizeDamage.cpp" />
     <ClCompile Include="MaximizeDamagePercent.cpp" />
     <ClCompile Include="MessageBar.cpp" />
@@ -117,6 +119,7 @@
     <ClInclude Include="AgentHuman.h" />
     <ClInclude Include="Application2D.h" />
     <ClInclude Include="Attack.h" />
+    <ClInclude Include="AttackMenuBox.h" />
     <ClInclude Include="Battle.h" />
     <ClInclude Include="Behaviour.h" />
     <ClInclude Include="Creature.h" />
@@ -124,6 +127,7 @@
     <ClInclude Include="GameModeStateMachine.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="MainMenuOptionMenuBox.h" />
     <ClInclude Include="MaximizeDamage.h" />
     <ClInclude Include="MaximizeDamagePercent.h" />
     <ClInclude Include="MenuBox.h" />
