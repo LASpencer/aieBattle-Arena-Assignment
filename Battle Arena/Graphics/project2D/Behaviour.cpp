@@ -1,0 +1,97 @@
+#include "Behaviour.h"
+#include "Creature.h"
+#include "Attack.h"
+
+
+Behaviour::Behaviour()
+{
+}
+
+
+Behaviour::~Behaviour()
+{
+}
+
+void Behaviour::SetFriends(CreatureArray * friends)
+{
+	m_friends = friends;
+}
+
+void Behaviour::SetEnemies(CreatureArray * enemies)
+{
+	m_enemies = enemies;
+}
+
+void Behaviour::SetPosition(size_t position)
+{
+	m_position = position;
+}
+
+void Behaviour::SetCreature(Creature * creature)
+{
+	m_creature = creature;
+}
+
+void Behaviour::SetPossibleAttacks(std::vector<Attack*>* possibleAttacks)
+{
+	m_possibleAttacks = possibleAttacks;
+}
+
+void Behaviour::CalculateAttackDamage(Attack * attack, int targetedDamage[], int areaDamage[])
+{
+	CalculateAttackValue(attack, EffectType::DAMAGE, TargetType::ENEMY,Ability::HEALTH, targetedDamage, areaDamage);
+}
+
+void Behaviour::CalculateAttackValue(Attack * attack, EffectType effectType, TargetType targetGroup, Ability ability, int targetedValue[], int areaValue[])
+{
+	std::vector<Effect>* effects = attack->GetEffects();
+	//Set damage arrays to 0
+	for (int i = 0; i < Attack::MAX_RANGE + 1; ++i) {
+		targetedValue[i] = 0;
+		areaValue[i] = 0;
+	}
+	//Iterate over each effect in attack
+	for (std::vector<Effect>::iterator it = effects->begin(); it != effects->end(); ++it) {
+		bool suitableTarget = false;
+		switch (targetGroup) {
+		case TargetType::SELF:
+		case TargetType::FRIEND:
+			suitableTarget = (it->target == TargetType::SELF || it->target == TargetType::FRIEND);
+			break;
+		case TargetType::ENEMY:
+			suitableTarget = (it->target == TargetType::ENEMY);
+			break;
+		}
+		if (suitableTarget && it->info.type == effectType && it->info.ability == ability) {		// If effect does specified effect to chosen group
+			int attackerModValue= it->baseValue;
+			// Modify value by attacker's abilities
+			for (std::map<Ability, float>::iterator modIt = it->abilityOffModifier.begin(); modIt != it->abilityOffModifier.end(); ++modIt) {
+				attackerModValue += (int)(m_creature->getAbility(modIt->first) * modIt->second);
+			}
+			// TODO modify damage based on effect duration (geometric progression time discount?)
+			// Iterate over targetGroup
+			for (int i = 0; i < Attack::MAX_RANGE + 1; ++i) {
+				if (it->target != TargetType::SELF || i == m_position) {	//If effect targets other creatures, or checking own position
+					int totalModValue = attackerModValue;
+					// Modify value by defender's abilities
+					for (std::map<Ability, float>::iterator modIt = it->abilityOffModifier.begin(); modIt != it->abilityOffModifier.end(); ++modIt) {
+						totalModValue += (int)(m_enemies->creature[i]->getAbility(modIt->first) * modIt->second);
+					}
+					// Make sure modified value is not negative
+					if (totalModValue < 0) {
+						totalModValue = 0;
+					}
+					if (it->areaEffect) {
+						// If area effect, add to areaDamage array
+						areaValue[i] += totalModValue;
+					}
+					else {
+						// Otherwise add to targetedDamage array
+						targetedValue[i] += totalModValue;
+					}
+				}
+			}
+		}
+	}
+	//TODO maybe modify damage values by evasion
+}
