@@ -5,6 +5,10 @@
 #include "MenuBox.h"
 #include "MainMenuOptionMenuBox.h"
 
+
+//TODO create MajorCharacter class with portrait texture, pointer to creature, method for drawing summary block
+//TODO PARTY option allows you to view the party members
+
 class MessageBar;
 class MainMenuOption;
 /*
