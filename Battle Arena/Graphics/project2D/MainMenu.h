@@ -39,7 +39,7 @@ public:
 protected:
 	MessageBar* m_titleBar;
 	std::vector<MainMenuOption> m_menuOptions;
-	MainMenuOptionMenuBox* m_mainMenuBox;	//TODO change to MainMenuOptionMenuBox derived class
+	MainMenuOptionMenuBox* m_mainMenuBox;
 	//TODO menubox allowing player to exit the game
 };
 

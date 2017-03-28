@@ -42,7 +42,6 @@ protected:
 	aie::Texture*		m_targetArrow;
 
 	aie::Font*			m_font;
-	aie::Audio*			m_audio;
 	std::map<int, Effect>* m_effectMap;
 	std::map<int, Attack>* m_attackMap;
 	AgentAI*			m_aiAgent;

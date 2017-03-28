@@ -5,8 +5,6 @@
 #include "Font.h"
 #include "Input.h"
 
-//TODO change MenuBox into abstract class, with derived classes for each type needed
-
 struct OptionInfo {
 	char* name;
 	size_t length;

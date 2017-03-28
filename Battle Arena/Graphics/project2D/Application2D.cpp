@@ -1,3 +1,4 @@
+#include <time.h>
 #include "Application2D.h"
 #include "Texture.h"
 #include "Font.h"
@@ -32,7 +33,7 @@ bool Application2D::startup() {
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 
-	m_audio = new aie::Audio("./audio/powerup.wav");
+	srand(time(NULL));
 
 	m_effectMap = new std::map<int, Effect>();
 	//{key,{useDescription,{activateDescription,type,duration,value,ability,animation},baseValue,minTgt,maxTgt,areaEffect,target,{abilityOffModifier},{abilityDefModifier}
@@ -56,7 +57,7 @@ bool Application2D::startup() {
 			};
 		
 	m_attackMap = new std::map<int, Attack>();
-	// TODO new attacks
+
 	*m_attackMap = {
 				{1,Attack({ "Strike", " strikes with their blade", 0,0,0,0,0,TargetType::ENEMY,{ 1 },Animation::JUMP }, *m_effectMap) },
 				{2, Attack({ "Shoot", " looses an arrow",1,3,0,3,0,TargetType::ENEMY,{ 2 },Animation::JUMP },  *m_effectMap)},
@@ -153,7 +154,7 @@ bool Application2D::startup() {
 				{ Ability::TOUGHNESS,1 },
 				{ Ability::MAGIC_RESIST,1 },
 				{ Ability::EVASION,0 },
-				{ Ability::HEALTH,200 }
+				{ Ability::HEALTH,100 }
 			};
 
 			std::map<Ability, int>ImpAbility = {
@@ -190,13 +191,12 @@ bool Application2D::startup() {
 
 				//HACK creatures should be initialized elsewhere
 				m_playerTeam->creature[0] = new Creature("Swordsman", m_sword, m_dead, SwordsmanAbility, { 1,3,6,15 }, *m_attackMap); 
-				// TODO attacks for other classes
 				m_playerTeam->creature[1] = new Creature("Assassin", m_assassin, m_dead, AssassinAbility, { 7,8 }, *m_attackMap);
 				m_playerTeam->creature[2] = new Creature("Mendicant", m_monk, m_dead, MendicantAbility, { 1,5,9,17 }, *m_attackMap);
 				m_playerTeam->creature[3] = new Creature("Witch", m_witch, m_dead, WitchAbility, {14,4,10 }, *m_attackMap);
 				m_playerTeam->size = 4;
 				m_enemyTeam->creature[0] = new Creature("Medusa", m_medusa, m_dead, MedusaAbility, { 13,16,10 }, *m_attackMap);
-				m_enemyTeam->creature[1] = new Creature("Zombie", m_zombie, m_dead, ZombieAbility, { 11,12 }, *m_attackMap);	//TODO decide on starting order
+				m_enemyTeam->creature[1] = new Creature("Zombie", m_zombie, m_dead, ZombieAbility, { 11,12 }, *m_attackMap);
 				m_enemyTeam->creature[2] = new Creature("Goblin", m_goblin, m_dead, GoblinAbility, { 1,2,3 }, *m_attackMap);
 				m_enemyTeam->creature[3] = new Creature("Imp", m_imp, m_dead, ImpAbility, { 18,4,10 }, *m_attackMap);	
 				m_enemyTeam->size = 4;
@@ -206,7 +206,7 @@ bool Application2D::startup() {
 				m_playerTeam->creature[2]->SetAgent(new AgentHuman(m_targetArrow));
 				m_playerTeam->creature[3]->SetAgent(new AgentHuman(m_targetArrow));
 				m_enemyTeam->creature[0]->SetAgent(new AgentAI(new MaximizeDamagePercent()));
-				m_enemyTeam->creature[1]->SetAgent(new AgentAI(new PickFirstOption()));	//TODO set correct AI agent
+				m_enemyTeam->creature[1]->SetAgent(new AgentAI(new PickFirstOption()));
 				m_enemyTeam->creature[2]->SetAgent(new AgentAI(new MaximizeDamage()));
 				m_enemyTeam->creature[3]->SetAgent(new AgentAI(new MaximizeDamage()));
 
@@ -245,7 +245,6 @@ void Application2D::shutdown() {
 	delete m_playerTeam;
 	delete m_attackMap;
 	delete m_effectMap;
-	delete m_audio;
 	delete m_font;
 	delete m_2dRenderer;
 	

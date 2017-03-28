@@ -253,7 +253,6 @@ void Battle::PerformAttack::Init()
 	// Check which enemies dodged attack
 	for (size_t i = 0; i <= Attack::MAX_RANGE; ++i) {
 		int evasion = m_battle->m_passiveTeam->creature[i]->getAbility(Ability::EVASION);
-		// TODO initialize rand seed at application startup
 		m_dodgeArray[i] = (rand() % 100 < evasion);
 	}
 	// Get first effect
@@ -268,7 +267,6 @@ void Battle::PerformAttack::Exit()
 
 void Battle::PerformAttack::Update(float deltaTime)
 {
-	// TODO code for dodging attack
 	// Wait for animations to end
 	m_msgTimer += deltaTime;
 	if (m_msgTimer > 1) {
