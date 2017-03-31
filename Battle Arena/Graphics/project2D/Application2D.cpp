@@ -261,7 +261,7 @@ void Application2D::update(float deltaTime) {
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
-	 m_modeStateMachine->GetState()->update(deltaTime);
+	 m_modeStateMachine->getState()->update(deltaTime);
 }
 
 void Application2D::draw() {
@@ -275,7 +275,7 @@ void Application2D::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-	m_modeStateMachine->GetState()->draw(*m_2dRenderer);
+	m_modeStateMachine->getState()->draw(*m_2dRenderer);
 	
 	// show fps
 	

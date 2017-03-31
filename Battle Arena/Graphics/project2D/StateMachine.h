@@ -17,7 +17,7 @@ public:
 	*/
 	virtual void add(std::string name, State* state);
 
-	State * GetState();
+	State * getState();
 
 protected:
 	std::map<std::string, State*> m_states;

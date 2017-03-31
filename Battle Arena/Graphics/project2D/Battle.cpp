@@ -69,7 +69,7 @@ void Battle::update(float deltaTime)
 	m_timer += deltaTime;
 	aie::Input* input = aie::Input::getInstance();
 	// Update current state
-	m_turnStateMachine->GetState()->update(deltaTime);
+	m_turnStateMachine->getState()->update(deltaTime);
 	//Update creatures
 	for (size_t i = 0; i < m_playerTeam->size && i <= Attack::MAX_RANGE; ++i) {
 		m_playerTeam->creature[i]->update(deltaTime);
@@ -95,7 +95,7 @@ void Battle::draw(aie::Renderer2D & renderer)
 
 
 	// Draw current state
-	m_turnStateMachine->GetState()->draw(renderer);
+	m_turnStateMachine->getState()->draw(renderer);
 
 }
 

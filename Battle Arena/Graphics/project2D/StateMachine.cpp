@@ -31,7 +31,7 @@ void StateMachine::add(std::string name, State * state)
 	state->add(this);
 }
 
-State* StateMachine::GetState() {
+State* StateMachine::getState() {
 	return m_currentState;
 }
 
