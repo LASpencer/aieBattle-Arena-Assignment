@@ -16,8 +16,8 @@ AgentAI::~AgentAI()
 {
 }
 
-void AgentAI::StartTurn(CreatureArray * friends, CreatureArray * enemies, size_t position) {
-	Agent::StartTurn(friends, enemies, position);
+void AgentAI::startTurn(CreatureArray * friends, CreatureArray * enemies, size_t position) {
+	Agent::startTurn(friends, enemies, position);
 	m_behaviour->SetCreature(m_creature);
 	m_behaviour->SetFriends(friends);
 	m_behaviour->SetEnemies(enemies);

@@ -11,7 +11,7 @@ public:
 	AgentAI(Behaviour* behaviour);
 	~AgentAI();
 
-	virtual void StartTurn(CreatureArray * friends, CreatureArray * enemies, size_t position);
+	virtual void startTurn(CreatureArray * friends, CreatureArray * enemies, size_t position);
 
 	virtual void update(float deltaTime);
 	virtual void draw(aie::Renderer2D &renderer);

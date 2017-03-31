@@ -210,9 +210,9 @@ void Battle::SelectAction::init()
 	m_battle->m_attack = nullptr;
 	// Pass information to active creature's agent
 	m_agent = m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->GetAgent();
-	m_agent->StartTurn(m_battle->m_activeTeam, m_battle->m_passiveTeam, m_battle->m_activeCreaturePosition);
+	m_agent->startTurn(m_battle->m_activeTeam, m_battle->m_passiveTeam, m_battle->m_activeCreaturePosition);
 	// Check if agent has possible moves and end turn if not
-	if (!m_agent->CanTakeTurn()) {
+	if (!m_agent->canTakeTurn()) {
 		m_stateMachine->Change("TakeTurn");
 	}
 }
@@ -226,9 +226,9 @@ void Battle::SelectAction::exit()
 void Battle::SelectAction::update(float deltaTime)
 {
 	m_agent->update(deltaTime);
-	if (m_agent->HasDecided()) {
-		m_battle->m_attack = m_agent->GetChosenAttack();
-		m_battle->m_target = m_agent->GetTarget();
+	if (m_agent->hasDecided()) {
+		m_battle->m_attack = m_agent->getChosenAttack();
+		m_battle->m_target = m_agent->getTarget();
 		m_stateMachine->Change("PerformAttack");
 	}
 }

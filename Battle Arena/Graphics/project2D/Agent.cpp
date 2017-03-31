@@ -11,7 +11,7 @@ Agent::~Agent()
 {
 }
 
-void Agent::StartTurn(CreatureArray * friends, CreatureArray * enemies, size_t position)
+void Agent::startTurn(CreatureArray * friends, CreatureArray * enemies, size_t position)
 {
 	m_friends = friends;
 	m_enemies = enemies;
@@ -20,7 +20,7 @@ void Agent::StartTurn(CreatureArray * friends, CreatureArray * enemies, size_t p
 	m_decided = false;
 }
 
-bool Agent::CanTakeTurn()
+bool Agent::canTakeTurn()
 {
 	return !m_possibleAttacks.empty();
 }

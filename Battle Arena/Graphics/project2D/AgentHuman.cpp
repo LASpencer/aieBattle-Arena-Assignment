@@ -22,9 +22,9 @@ AgentHuman::~AgentHuman()
 {
 }
 
-void AgentHuman::StartTurn(CreatureArray * friends, CreatureArray * enemies, size_t position)
+void AgentHuman::startTurn(CreatureArray * friends, CreatureArray * enemies, size_t position)
 {
-	Agent::StartTurn(friends, enemies, position);
+	Agent::startTurn(friends, enemies, position);
 	m_attackMenu.SetContents(m_possibleAttacks);
 	m_attackMenu.SetPosition(ATTACK_MENU_XPOS - (position * Battle::POSITION_WIDTH), ATTACK_MENU_YPOS);
 	m_pickingTarget = false;

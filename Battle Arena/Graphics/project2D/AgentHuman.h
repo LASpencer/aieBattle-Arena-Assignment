@@ -11,7 +11,7 @@ public:
 	AgentHuman(aie::Texture* targetArrow);
 	~AgentHuman();
 
-	virtual void StartTurn(CreatureArray* friends, CreatureArray* enemies, size_t position);
+	virtual void startTurn(CreatureArray* friends, CreatureArray* enemies, size_t position);
 	virtual void update(float deltaTime);
 	void SetTargetArrowSprite(aie::Texture* targetArrow);
 	virtual void draw(aie::Renderer2D &renderer);
