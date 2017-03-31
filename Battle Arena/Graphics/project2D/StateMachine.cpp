@@ -19,16 +19,16 @@ StateMachine::~StateMachine()
 void StateMachine::Change(std::string stateName)
 {
 	if (m_currentState != nullptr) {
-		m_currentState->Exit();
+		m_currentState->exit();
 	}
 	m_currentState = m_states[stateName];
-	m_currentState->Init();
+	m_currentState->init();
 }
 
-void StateMachine::Add(std::string name, State * state)
+void StateMachine::add(std::string name, State * state)
 {
 	m_states[name] = state;
-	state->Add(this);
+	state->add(this);
 }
 
 State* StateMachine::GetState() {

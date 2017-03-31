@@ -157,7 +157,7 @@ bool Creature::ApplyOngoingEffect(std::vector<EffectInfo>::iterator effect, Mess
 
 
 
-void Creature::Update(float deltaTime)
+void Creature::update(float deltaTime)
 {
 	//HACK put magic numbers in constants
 	switch (m_animation) {
@@ -238,7 +238,7 @@ void Creature::Update(float deltaTime)
 	}
 }
 
-void Creature::Draw(aie::Renderer2D & renderer, float xPos, float yPos)
+void Creature::draw(aie::Renderer2D & renderer, float xPos, float yPos)
 {
 	if (isAlive()) {
 		renderer.drawSprite(m_sprite, xPos+m_xPos, yPos+m_yPos);

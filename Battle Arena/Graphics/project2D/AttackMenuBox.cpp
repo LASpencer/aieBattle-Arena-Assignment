@@ -23,7 +23,7 @@ AttackMenuBox::~AttackMenuBox()
 {
 }
 
-void AttackMenuBox::Update(float deltaTime)
+void AttackMenuBox::update(float deltaTime)
 {
 	//up and down direction keys scroll through menu
 	aie::Input* input = aie::Input::getInstance();
@@ -40,7 +40,7 @@ void AttackMenuBox::Update(float deltaTime)
 	}
 }
 
-void AttackMenuBox::Draw(aie::Renderer2D & renderer)
+void AttackMenuBox::draw(aie::Renderer2D & renderer)
 {
 	if (!m_contents.empty()) {
 		// Get each option from iterator

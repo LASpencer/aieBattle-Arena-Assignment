@@ -23,7 +23,7 @@ MainMenuOptionMenuBox::~MainMenuOptionMenuBox()
 {
 }
 
-void MainMenuOptionMenuBox::Update(float deltaTime)
+void MainMenuOptionMenuBox::update(float deltaTime)
 {
 	//up and down direction keys scroll through menu
 	aie::Input* input = aie::Input::getInstance();
@@ -40,7 +40,7 @@ void MainMenuOptionMenuBox::Update(float deltaTime)
 	}
 }
 
-void MainMenuOptionMenuBox::Draw(aie::Renderer2D & renderer)
+void MainMenuOptionMenuBox::draw(aie::Renderer2D & renderer)
 {
 	if (!m_contents.empty()) {
 		// Get each option from iterator

@@ -73,8 +73,8 @@ public:
 	std::vector<EffectInfo>::iterator GetFirstOngoingEffect();
 	bool ApplyOngoingEffect(std::vector<EffectInfo>::iterator effect, MessageBar* message);
 
-	void Update(float deltaTime);
-	void Draw(aie::Renderer2D &renderer, float xPos, float yPos);
+	void update(float deltaTime);
+	void draw(aie::Renderer2D &renderer, float xPos, float yPos);
 
 	void StartAnimation(Animation animation);
 

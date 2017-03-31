@@ -18,13 +18,13 @@ public:
 	~GameModeState();
 
 	// Initializes newly entered state
-	virtual void Init(CreatureArray* playerTeam, CreatureArray* enemyTeam = nullptr);
+	virtual void init(CreatureArray* playerTeam, CreatureArray* enemyTeam = nullptr);
 
 	// Sets a pointer to the GameModeStateMachine that contains this GameModeState
-	void Add(GameModeStateMachine* stateMachine);
+	void add(GameModeStateMachine* stateMachine);
 
 	// Sets a pointer to the Application object
-	void SetApplication(Application2D* application) {
+	void setApplication(Application2D* application) {
 		m_application = application;
 	}
 

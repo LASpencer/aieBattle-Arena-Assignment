@@ -6,9 +6,6 @@
 #include "MainMenuOptionMenuBox.h"
 
 
-//TODO create MajorCharacter class with portrait texture, pointer to creature, method for drawing summary block
-//TODO PARTY option allows you to view the party members
-
 class MessageBar;
 class MainMenuOption;
 /*
@@ -24,11 +21,11 @@ public:
 	MainMenu(Application2D* application);
 	~MainMenu();
 
-	virtual void Init();
-	void Init(CreatureArray * playerTeam, CreatureArray * enemyTeam);
-	virtual void Exit();
-	virtual void Update(float deltaTime);
-	virtual void Draw(aie::Renderer2D &renderer);
+	virtual void init();
+	void init(CreatureArray * playerTeam, CreatureArray * enemyTeam);
+	virtual void exit();
+	virtual void update(float deltaTime);
+	virtual void draw(aie::Renderer2D &renderer);
 
 	enum Option {
 		NONE,
@@ -40,7 +37,6 @@ protected:
 	MessageBar* m_titleBar;
 	std::vector<MainMenuOption> m_menuOptions;
 	MainMenuOptionMenuBox* m_mainMenuBox;
-	//TODO menubox allowing player to exit the game
 };
 
 class MainMenuOption {

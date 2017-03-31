@@ -12,9 +12,9 @@ public:
 	~AgentHuman();
 
 	virtual void StartTurn(CreatureArray* friends, CreatureArray* enemies, size_t position);
-	virtual void Update(float deltaTime);
+	virtual void update(float deltaTime);
 	void SetTargetArrowSprite(aie::Texture* targetArrow);
-	virtual void Draw(aie::Renderer2D &renderer);
+	virtual void draw(aie::Renderer2D &renderer);
 
 	static const float ATTACK_MENU_XPOS;
 	static const float ATTACK_MENU_YPOS;

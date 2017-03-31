@@ -19,26 +19,26 @@ GameOver::~GameOver()
 	delete m_gameOverMsg;
 }
 
-void GameOver::Init()
+void GameOver::init()
 {
 }
 
-void GameOver::Init(CreatureArray * playerTeam, CreatureArray * enemyTeam)
+void GameOver::init(CreatureArray * playerTeam, CreatureArray * enemyTeam)
 {
 	m_playerTeam = playerTeam;
 	m_enemyTeam = enemyTeam;
-	Init();
+	init();
 }
 
-void GameOver::Exit()
+void GameOver::exit()
 {
 }
 
-void GameOver::Update(float deltaTime)
+void GameOver::update(float deltaTime)
 {
 }
 
-void GameOver::Draw(aie::Renderer2D & renderer)
+void GameOver::draw(aie::Renderer2D & renderer)
 {
-	m_gameOverMsg->Draw(renderer);
+	m_gameOverMsg->draw(renderer);
 }

@@ -23,11 +23,11 @@ public:
 	Battle(Application2D* application);
 	~Battle();
 
-	virtual void Init();
-	void Init(CreatureArray * playerTeam, CreatureArray * enemyTeam);
-	virtual void Exit();
-	virtual void Update(float deltaTime);
-	virtual void Draw(aie::Renderer2D &renderer);
+	virtual void init();
+	void init(CreatureArray * playerTeam, CreatureArray * enemyTeam);
+	virtual void exit();
+	virtual void update(float deltaTime);
+	virtual void draw(aie::Renderer2D &renderer);
 
 
 	// Substates 
@@ -41,10 +41,10 @@ public:
 	public:
 		Start(Battle* battle);
 		~Start();
-		void Init();
-		void Exit();
-		void Update(float deltaTime);
-		void Draw(aie::Renderer2D &renderer);
+		void init();
+		void exit();
+		void update(float deltaTime);
+		void draw(aie::Renderer2D &renderer);
 
 	protected:
 		Battle* m_battle;
@@ -60,10 +60,10 @@ public:
 	public:
 		TakeTurn(Battle* battle);
 		~TakeTurn();
-		void Init();
-		void Exit();
-		void Update(float deltaTime);
-		void Draw(aie::Renderer2D &renderer);
+		void init();
+		void exit();
+		void update(float deltaTime);
+		void draw(aie::Renderer2D &renderer);
 
 	protected:
 		Battle* m_battle;
@@ -79,10 +79,10 @@ public:
 	class OngoingEffects :public State {
 	public:
 		OngoingEffects(Battle* battle);
-		void Init();
-		void Exit();
-		void Update(float deltaTime);
-		void Draw(aie::Renderer2D &renderer);
+		void init();
+		void exit();
+		void update(float deltaTime);
+		void draw(aie::Renderer2D &renderer);
 	protected:
 		Battle* m_battle;
 		Creature* m_activeCreature;
@@ -99,10 +99,10 @@ public:
 	class SelectAction : public State {
 	public:
 		SelectAction(Battle* battle);
-		void Init();
-		void Exit();
-		void Update(float deltaTime);
-		void Draw(aie::Renderer2D &renderer);
+		void init();
+		void exit();
+		void update(float deltaTime);
+		void draw(aie::Renderer2D &renderer);
 
 
 	protected:
@@ -120,10 +120,10 @@ public:
 	public:
 		PerformAttack(Battle* battle);
 		~PerformAttack();
-		void Init();
-		void Exit();
-		void Update(float deltaTime);
-		void Draw(aie::Renderer2D &renderer);
+		void init();
+		void exit();
+		void update(float deltaTime);
+		void draw(aie::Renderer2D &renderer);
 
 	protected:
 		Battle* m_battle;
@@ -143,10 +143,10 @@ public:
 	class SortTeams :public State {
 	public:
 		SortTeams(Battle* battle);
-		void Init();
-		void Exit();
-		void Update(float deltaTime);
-		void Draw(aie::Renderer2D &renderer);
+		void init();
+		void exit();
+		void update(float deltaTime);
+		void draw(aie::Renderer2D &renderer);
 		void SortCreatureArray(CreatureArray* team);
 
 	protected:
@@ -165,10 +165,10 @@ public:
 	public:
 		BattleWin(Battle* battle);
 		~BattleWin();
-		void Init();
-		void Exit();
-		void Update(float deltaTime);
-		void Draw(aie::Renderer2D &renderer);
+		void init();
+		void exit();
+		void update(float deltaTime);
+		void draw(aie::Renderer2D &renderer);
 
 	protected:
 		Battle* m_battle;
@@ -186,10 +186,10 @@ public:
 	public:
 		BattleLoss(Battle* battle);
 		~BattleLoss();
-		void Init();
-		void Exit();
-		void Update(float deltaTime);
-		void Draw(aie::Renderer2D &renderer);
+		void init();
+		void exit();
+		void update(float deltaTime);
+		void draw(aie::Renderer2D &renderer);
 
 	protected:
 		Battle* m_battle;

@@ -20,7 +20,7 @@ public:
 	void SetBoxColour(unsigned int boxColour);
 	void SetTextColour(unsigned int textColour);
 
-	void Draw(aie::Renderer2D &renderer);
+	void draw(aie::Renderer2D &renderer);
 
 	static const float CHARACTER_WIDTH;
 	static const float CHARACTER_HEIGHT;

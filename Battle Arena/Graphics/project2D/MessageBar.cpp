@@ -63,7 +63,7 @@ void MessageBar::SetTextColour(unsigned int textColour)
 	m_textColour = textColour;
 }
 
-void MessageBar::Draw(aie::Renderer2D & renderer)
+void MessageBar::draw(aie::Renderer2D & renderer)
 {
 	if (m_message != nullptr) {
 		//Calculate message width

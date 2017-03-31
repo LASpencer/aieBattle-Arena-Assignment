@@ -25,7 +25,7 @@ void AgentAI::StartTurn(CreatureArray * friends, CreatureArray * enemies, size_t
 	m_behaviour->SetPossibleAttacks(&m_possibleAttacks);
 }
 
-void AgentAI::Update(float deltaTime)
+void AgentAI::update(float deltaTime)
 {
 	// Get chosen attack from current behaviour
 	m_chosenAttack = m_behaviour->SelectAttack();
@@ -34,7 +34,7 @@ void AgentAI::Update(float deltaTime)
 	m_decided = true;
 }
 
-void AgentAI::Draw(aie::Renderer2D & renderer)
+void AgentAI::draw(aie::Renderer2D & renderer)
 {
 }
 

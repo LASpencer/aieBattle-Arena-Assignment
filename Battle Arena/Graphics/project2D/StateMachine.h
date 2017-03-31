@@ -15,7 +15,7 @@ public:
 		name = key of new state
 		state = pointer to new state
 	*/
-	virtual void Add(std::string name, State* state);
+	virtual void add(std::string name, State* state);
 
 	State * GetState();
 

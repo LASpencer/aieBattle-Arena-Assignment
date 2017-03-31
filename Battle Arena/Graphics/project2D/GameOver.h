@@ -15,11 +15,11 @@ public:
 	GameOver(Application2D* application);
 	~GameOver();
 
-	virtual void Init();
-	void Init(CreatureArray * playerTeam, CreatureArray * enemyTeam);
-	virtual void Exit();
-	virtual void Update(float deltaTime);
-	virtual void Draw(aie::Renderer2D &renderer);
+	virtual void init();
+	void init(CreatureArray * playerTeam, CreatureArray * enemyTeam);
+	virtual void exit();
+	virtual void update(float deltaTime);
+	virtual void draw(aie::Renderer2D &renderer);
 
 protected:
 	MessageBar* m_gameOverMsg;

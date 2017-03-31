@@ -30,11 +30,11 @@ void AgentHuman::StartTurn(CreatureArray * friends, CreatureArray * enemies, siz
 	m_pickingTarget = false;
 }
 
-void AgentHuman::Update(float deltaTime)
+void AgentHuman::update(float deltaTime)
 {
 	aie::Input* input = aie::Input::getInstance();
 	if (!m_pickingTarget) {
-		m_attackMenu.Update(deltaTime);
+		m_attackMenu.update(deltaTime);
 		if (input->wasKeyPressed(aie::INPUT_KEY_SPACE)) {
 			m_chosenAttack = m_attackMenu.GetCurrent();
 			SetTargetChoices();
@@ -83,9 +83,9 @@ void AgentHuman::SetTargetArrowSprite(aie::Texture * targetArrow)
 	m_targetArrow = targetArrow;
 }
 
-void AgentHuman::Draw(aie::Renderer2D & renderer)
+void AgentHuman::draw(aie::Renderer2D & renderer)
 {
-	m_attackMenu.Draw(renderer);
+	m_attackMenu.draw(renderer);
 	if (m_pickingTarget) {
 		float indicatorXPos;
 		float indicatorYPos = Battle::GROUND_POS + 220;

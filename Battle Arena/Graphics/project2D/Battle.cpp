@@ -19,16 +19,16 @@ Battle::Battle(Application2D* application) : m_message("",640,550)
 
 	m_turnStateMachine = new StateMachine();
 
-	m_turnStateMachine->Add("Start", new Start(this));
-	m_turnStateMachine->Add("TakeTurn", new TakeTurn(this));
-	m_turnStateMachine->Add("OngoingEffects", new OngoingEffects(this));
-	m_turnStateMachine->Add("SelectAction", new SelectAction(this));
-	m_turnStateMachine->Add("PerformAttack", new PerformAttack(this));
-	m_turnStateMachine->Add("SortTeams", new SortTeams(this));
-	m_turnStateMachine->Add("BattleWin", new BattleWin(this));
-	m_turnStateMachine->Add("BattleLoss", new BattleLoss(this));
+	m_turnStateMachine->add("Start", new Start(this));
+	m_turnStateMachine->add("TakeTurn", new TakeTurn(this));
+	m_turnStateMachine->add("OngoingEffects", new OngoingEffects(this));
+	m_turnStateMachine->add("SelectAction", new SelectAction(this));
+	m_turnStateMachine->add("PerformAttack", new PerformAttack(this));
+	m_turnStateMachine->add("SortTeams", new SortTeams(this));
+	m_turnStateMachine->add("BattleWin", new BattleWin(this));
+	m_turnStateMachine->add("BattleLoss", new BattleLoss(this));
 
-	m_background = new aie::Texture("./textures/Background.png"); //HACK pass different backgrounds to battle
+	m_background = new aie::Texture("./textures/Background.png");
 
 }
 
@@ -43,7 +43,7 @@ Battle::~Battle()
 	delete m_turnStateMachine;
 }
 
-void Battle::Init()
+void Battle::init()
 {
 	m_timer = 0.0f;					//Reset timer
 	m_activeTeam = m_playerTeam;	//Player takes first turn
@@ -53,33 +53,33 @@ void Battle::Init()
 	m_turnStateMachine->Change("Start");
 }
 
-void Battle::Init(CreatureArray* playerTeam, CreatureArray* enemyTeam) {
+void Battle::init(CreatureArray* playerTeam, CreatureArray* enemyTeam) {
 	m_playerTeam = playerTeam;
 	m_enemyTeam = enemyTeam;
-	Init();
+	init();
 }
 
-void Battle::Exit()
+void Battle::exit()
 {
 	
 }
 
-void Battle::Update(float deltaTime)
+void Battle::update(float deltaTime)
 {
 	m_timer += deltaTime;
 	aie::Input* input = aie::Input::getInstance();
 	// Update current state
-	m_turnStateMachine->GetState()->Update(deltaTime);
+	m_turnStateMachine->GetState()->update(deltaTime);
 	//Update creatures
 	for (size_t i = 0; i < m_playerTeam->size && i <= Attack::MAX_RANGE; ++i) {
-		m_playerTeam->creature[i]->Update(deltaTime);
+		m_playerTeam->creature[i]->update(deltaTime);
 	}
 	for (size_t i = 0; i < m_enemyTeam->size && i <= Attack::MAX_RANGE; ++i) {
-		m_enemyTeam->creature[i]->Update(deltaTime);
+		m_enemyTeam->creature[i]->update(deltaTime);
 	}
 }
 
-void Battle::Draw(aie::Renderer2D & renderer)
+void Battle::draw(aie::Renderer2D & renderer)
 {
 
 	// Draw background
@@ -87,15 +87,15 @@ void Battle::Draw(aie::Renderer2D & renderer)
 
 	// Draw creatures
 	for (size_t i = 0; i < m_playerTeam->size && i <= Attack::MAX_RANGE; ++i) {
-		m_playerTeam->creature[i]->Draw(renderer, PLAYER_TEAM_STARTPOS - (POSITION_WIDTH * i), GROUND_POS+100);
+		m_playerTeam->creature[i]->draw(renderer, PLAYER_TEAM_STARTPOS - (POSITION_WIDTH * i), GROUND_POS+100);
 	}
 	for (size_t i = 0; i < m_enemyTeam->size && i <= Attack::MAX_RANGE; ++i) {
-		m_enemyTeam->creature[i]->Draw(renderer, ENEMY_TEAM_STARTPOS + (POSITION_WIDTH * i), GROUND_POS+100);
+		m_enemyTeam->creature[i]->draw(renderer, ENEMY_TEAM_STARTPOS + (POSITION_WIDTH * i), GROUND_POS+100);
 	}
 
 
 	// Draw current state
-	m_turnStateMachine->GetState()->Draw(renderer);
+	m_turnStateMachine->GetState()->draw(renderer);
 
 }
 
@@ -107,18 +107,18 @@ Battle::Start::~Start()
 {
 }
 
-void Battle::Start::Init()
+void Battle::Start::init()
 {
 	std::string startMessage = m_battle->m_enemyTeam->creature[0]->GetName() + "'s band attacks the party!";
 	m_startMessage->SetMessage(startMessage);
 	m_timer = 0;
 }
 
-void Battle::Start::Exit()
+void Battle::Start::exit()
 {
 }
 
-void Battle::Start::Update(float deltaTime)
+void Battle::Start::update(float deltaTime)
 {
 	// Exit to TakeTurn after 1 second
 	m_timer += deltaTime;
@@ -127,11 +127,11 @@ void Battle::Start::Update(float deltaTime)
 	}
 }
 
-void Battle::Start::Draw(aie::Renderer2D &renderer)
+void Battle::Start::draw(aie::Renderer2D &renderer)
 {
 	// Print battle start message
 	
-	m_startMessage->Draw(renderer);
+	m_startMessage->draw(renderer);
 }
 
 Battle::TakeTurn::TakeTurn(Battle * battle) : m_battle(battle), m_turnMessage(&battle->m_message)
@@ -142,7 +142,7 @@ Battle::TakeTurn::~TakeTurn()
 {
 }
 
-void Battle::TakeTurn::Init()
+void Battle::TakeTurn::init()
 {
 	// Reset msgTimer
 	m_msgTimer = 0;
@@ -161,7 +161,7 @@ void Battle::TakeTurn::Init()
 		}
 		else {
 			// If not re-initialize TakeTurn for next creature
-			Init();
+			init();
 		}
 		
 	}
@@ -178,16 +178,16 @@ void Battle::TakeTurn::Init()
 		}
 		// Else re-initialize TakeTurn state with new team
 		else {
-			Init();
+			init();
 		}
 	}
 }
 
-void Battle::TakeTurn::Exit()
+void Battle::TakeTurn::exit()
 {
 }
 
-void Battle::TakeTurn::Update(float deltaTime)
+void Battle::TakeTurn::update(float deltaTime)
 {
 	m_msgTimer += deltaTime;
 	// After displaying message for 1 second, exit to OngoingEffects
@@ -196,16 +196,16 @@ void Battle::TakeTurn::Update(float deltaTime)
 	}
 }
 
-void Battle::TakeTurn::Draw(aie::Renderer2D &renderer)
+void Battle::TakeTurn::draw(aie::Renderer2D &renderer)
 {
-	m_turnMessage->Draw(renderer);
+	m_turnMessage->draw(renderer);
 }
 
 Battle::SelectAction::SelectAction(Battle * battle) : m_battle(battle)
 {
 }
 
-void Battle::SelectAction::Init()
+void Battle::SelectAction::init()
 {
 	m_battle->m_attack = nullptr;
 	// Pass information to active creature's agent
@@ -217,15 +217,15 @@ void Battle::SelectAction::Init()
 	}
 }
 
-void Battle::SelectAction::Exit()
+void Battle::SelectAction::exit()
 {
 	//End creature's turn
 	m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->endTurn();
 }
 
-void Battle::SelectAction::Update(float deltaTime)
+void Battle::SelectAction::update(float deltaTime)
 {
-	m_agent->Update(deltaTime);
+	m_agent->update(deltaTime);
 	if (m_agent->HasDecided()) {
 		m_battle->m_attack = m_agent->GetChosenAttack();
 		m_battle->m_target = m_agent->GetTarget();
@@ -233,10 +233,10 @@ void Battle::SelectAction::Update(float deltaTime)
 	}
 }
 
-void Battle::SelectAction::Draw(aie::Renderer2D &renderer)
+void Battle::SelectAction::draw(aie::Renderer2D &renderer)
 {
 	// Draw agent
-	m_agent->Draw(renderer);
+	m_agent->draw(renderer);
 }
 
 Battle::PerformAttack::PerformAttack(Battle * battle) : m_battle(battle), m_attackMsg(&battle->m_message)
@@ -247,7 +247,7 @@ Battle::PerformAttack::~PerformAttack()
 {
 }
 
-void Battle::PerformAttack::Init()
+void Battle::PerformAttack::init()
 {
 	m_activeCreature = m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition];
 	// Check which enemies dodged attack
@@ -261,11 +261,11 @@ void Battle::PerformAttack::Init()
 	m_msgTimer = 0;
 }
 
-void Battle::PerformAttack::Exit()
+void Battle::PerformAttack::exit()
 {
 }
 
-void Battle::PerformAttack::Update(float deltaTime)
+void Battle::PerformAttack::update(float deltaTime)
 {
 	// Wait for animations to end
 	m_msgTimer += deltaTime;
@@ -284,16 +284,16 @@ void Battle::PerformAttack::Update(float deltaTime)
 	}
 }
 
-void Battle::PerformAttack::Draw(aie::Renderer2D &renderer)
+void Battle::PerformAttack::draw(aie::Renderer2D &renderer)
 {
-	m_attackMsg->Draw(renderer);
+	m_attackMsg->draw(renderer);
 }
 
 Battle::SortTeams::SortTeams(Battle* battle) : m_timer(0), m_battle(battle), m_message(&battle->m_message)
 {
 }
 
-void Battle::SortTeams::Init()
+void Battle::SortTeams::init()
 {
 	// map creature* to original position
 	std::map<Creature*, size_t> startPosition;
@@ -335,12 +335,12 @@ void Battle::SortTeams::Init()
 	}
 }
 
-void Battle::SortTeams::Exit()
+void Battle::SortTeams::exit()
 {
 
 }
 
-void Battle::SortTeams::Update(float deltaTime)
+void Battle::SortTeams::update(float deltaTime)
 {
 	// Wait for creatures to slide into position
 	m_timer += deltaTime;
@@ -349,9 +349,9 @@ void Battle::SortTeams::Update(float deltaTime)
 	}
 }
 
-void Battle::SortTeams::Draw(aie::Renderer2D &renderer)
+void Battle::SortTeams::draw(aie::Renderer2D &renderer)
 {
-	m_message->Draw(renderer);
+	m_message->draw(renderer);
 }
 
 void Battle::SortTeams::SortCreatureArray(CreatureArray * team)
@@ -374,19 +374,19 @@ Battle::BattleWin::BattleWin(Battle * battle): m_battle(battle), m_winMessage(&b
 Battle::BattleWin::~BattleWin() {
 }
 
-void Battle::BattleWin::Init()
+void Battle::BattleWin::init()
 {
 	m_timer = 0;
 	m_winMessage->SetMessage("You have triumphed!");
 }
 
-void Battle::BattleWin::Exit()
+void Battle::BattleWin::exit()
 {
 }
 
-void Battle::BattleWin::Update(float deltaTime)
+void Battle::BattleWin::update(float deltaTime)
 {
-	// TODO victory animations
+
 	// Battle state exits to VictoryScreen
 	m_timer += deltaTime;
 	if (m_timer > 1) {
@@ -394,9 +394,9 @@ void Battle::BattleWin::Update(float deltaTime)
 	}
 }
 
-void Battle::BattleWin::Draw(aie::Renderer2D &renderer)
+void Battle::BattleWin::draw(aie::Renderer2D &renderer)
 {
-	m_winMessage->Draw(renderer);
+	m_winMessage->draw(renderer);
 }
 
 Battle::BattleLoss::BattleLoss(Battle * battle) : m_battle(battle), m_loseMessage(&battle->m_message), m_timer(0)
@@ -407,19 +407,18 @@ Battle::BattleLoss::~BattleLoss() {
 
 }
 
-void Battle::BattleLoss::Init()
+void Battle::BattleLoss::init()
 {
 	m_timer = 0;
 	m_loseMessage->SetMessage("You were defeated");
 }
 
-void Battle::BattleLoss::Exit()
+void Battle::BattleLoss::exit()
 {
 }
 
-void Battle::BattleLoss::Update(float deltaTime)
+void Battle::BattleLoss::update(float deltaTime)
 {
-	// TODO defeat animations
 	// Battle state exits to Game Over
 	m_timer += deltaTime;
 	if (m_timer > 1) {
@@ -427,16 +426,16 @@ void Battle::BattleLoss::Update(float deltaTime)
 	}
 }
 
-void Battle::BattleLoss::Draw(aie::Renderer2D &renderer)
+void Battle::BattleLoss::draw(aie::Renderer2D &renderer)
 {
-	m_loseMessage->Draw(renderer);
+	m_loseMessage->draw(renderer);
 }
 
 Battle::OngoingEffects::OngoingEffects(Battle * battle) : m_battle(battle), m_message(&battle->m_message)
 {
 }
 
-void Battle::OngoingEffects::Init()
+void Battle::OngoingEffects::init()
 {
 	m_activeCreature = m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition];
 	// Get first effect
@@ -445,11 +444,11 @@ void Battle::OngoingEffects::Init()
 	m_timer = 1;
 }
 
-void Battle::OngoingEffects::Exit()
+void Battle::OngoingEffects::exit()
 {
 }
 
-void Battle::OngoingEffects::Update(float deltaTime)
+void Battle::OngoingEffects::update(float deltaTime)
 {
 	// Wait for animations to end
 	m_timer += deltaTime;
@@ -473,7 +472,7 @@ void Battle::OngoingEffects::Update(float deltaTime)
 	}
 }
 
-void Battle::OngoingEffects::Draw(aie::Renderer2D & renderer)
+void Battle::OngoingEffects::draw(aie::Renderer2D & renderer)
 {
-	m_message->Draw(renderer);
+	m_message->draw(renderer);
 }

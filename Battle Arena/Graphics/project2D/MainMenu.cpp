@@ -20,7 +20,7 @@ MainMenu::~MainMenu()
 {
 }
 
-void MainMenu::Init()
+void MainMenu::init()
 {
 	m_titleBar = new MessageBar("Battle Arena", 640, 650);
 	m_menuOptions.clear();
@@ -29,25 +29,25 @@ void MainMenu::Init()
 	m_mainMenuBox = new MainMenuOptionMenuBox(m_menuOptions,600,550);
 }
 
-void MainMenu::Init(CreatureArray * playerTeam, CreatureArray * enemyTeam)
+void MainMenu::init(CreatureArray * playerTeam, CreatureArray * enemyTeam)
 {
 	m_playerTeam = playerTeam;
 	m_enemyTeam = enemyTeam;
-	Init();
+	init();
 }
 
-void MainMenu::Exit()
+void MainMenu::exit()
 {
 	m_menuOptions.clear();
 	delete m_mainMenuBox;
 	delete m_titleBar;
 }
 
-void MainMenu::Update(float deltaTime)
+void MainMenu::update(float deltaTime)
 {
 	// Get user input
 	aie::Input* input = aie::Input::getInstance();
-	m_mainMenuBox->Update(deltaTime);
+	m_mainMenuBox->update(deltaTime);
 	// If spacebar was pressed, perform action selected
 	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE)) {
 		switch (m_mainMenuBox->GetCurrent().GetOption()) {
@@ -61,8 +61,8 @@ void MainMenu::Update(float deltaTime)
 	}
 }
 
-void MainMenu::Draw(aie::Renderer2D & renderer)
+void MainMenu::draw(aie::Renderer2D & renderer)
 {
-	m_titleBar->Draw(renderer);
-	m_mainMenuBox->Draw(renderer);
+	m_titleBar->draw(renderer);
+	m_mainMenuBox->draw(renderer);
 }

@@ -19,26 +19,26 @@ VictoryScreen::~VictoryScreen()
 	delete m_winMessage;
 }
 
-void VictoryScreen::Init()
+void VictoryScreen::init()
 {
 }
 
-void VictoryScreen::Init(CreatureArray * playerTeam, CreatureArray * enemyTeam)
+void VictoryScreen::init(CreatureArray * playerTeam, CreatureArray * enemyTeam)
 {
 	m_playerTeam = playerTeam;
-	Init();
+	init();
 }
 
-void VictoryScreen::Exit()
+void VictoryScreen::exit()
 {
 	
 }
 
-void VictoryScreen::Update(float deltaTime)
+void VictoryScreen::update(float deltaTime)
 {
 }
 
-void VictoryScreen::Draw(aie::Renderer2D & renderer)
+void VictoryScreen::draw(aie::Renderer2D & renderer)
 {
-	m_winMessage->Draw(renderer);
+	m_winMessage->draw(renderer);
 }

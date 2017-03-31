@@ -11,7 +11,7 @@ State::~State()
 {
 }
 
-void State::Add(StateMachine * stateMachine)
+void State::add(StateMachine * stateMachine)
 {
 	m_stateMachine = stateMachine;
 }

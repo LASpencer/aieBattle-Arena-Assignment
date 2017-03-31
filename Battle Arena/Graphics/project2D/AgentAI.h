@@ -13,8 +13,8 @@ public:
 
 	virtual void StartTurn(CreatureArray * friends, CreatureArray * enemies, size_t position);
 
-	virtual void Update(float deltaTime);
-	virtual void Draw(aie::Renderer2D &renderer);
+	virtual void update(float deltaTime);
+	virtual void draw(aie::Renderer2D &renderer);
 
 	void setBehaviour(Behaviour* behaviour);
 

@@ -15,6 +15,6 @@ public:
 		name = new state key
 		state = pointer to new state
 	*/
-	void Add(std::string name, State* state);
+	void add(std::string name, State* state);
 };
 

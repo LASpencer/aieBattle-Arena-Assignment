@@ -12,8 +12,8 @@ public:
 	AttackMenuBox(const AttackMenuBox &m);
 	~AttackMenuBox();
 
-	void Update(float deltaTime);
-	void Draw(aie::Renderer2D &renderer);
+	void update(float deltaTime);
+	void draw(aie::Renderer2D &renderer);
 
 	void SetContents(std::vector<Attack*> &contents);
 

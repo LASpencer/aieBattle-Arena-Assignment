@@ -11,11 +11,11 @@ public:
 	State();
 	~State();
 
-	virtual void Init() =0;
-	virtual void Exit() = 0;
-	virtual void Update(float deltaTime) = 0;
-	virtual void Draw(aie::Renderer2D &renderer) =0;
-	virtual void Add(StateMachine *stateMachine);
+	virtual void init() =0;
+	virtual void exit() = 0;
+	virtual void update(float deltaTime) = 0;
+	virtual void draw(aie::Renderer2D &renderer) =0;
+	virtual void add(StateMachine *stateMachine);
 
 protected:
 	StateMachine* m_stateMachine;

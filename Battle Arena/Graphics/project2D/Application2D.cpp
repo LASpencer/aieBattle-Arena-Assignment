@@ -212,10 +212,10 @@ bool Application2D::startup() {
 
 
 	m_modeStateMachine = new GameModeStateMachine;
-	m_modeStateMachine->Add("MainMenu", new MainMenu(this));
-	m_modeStateMachine->Add("Battle", new Battle(this));
-	m_modeStateMachine->Add("GameOver", new GameOver(this));
-	m_modeStateMachine->Add("VictoryScreen", new VictoryScreen(this));
+	m_modeStateMachine->add("MainMenu", new MainMenu(this));
+	m_modeStateMachine->add("Battle", new Battle(this));
+	m_modeStateMachine->add("GameOver", new GameOver(this));
+	m_modeStateMachine->add("VictoryScreen", new VictoryScreen(this));
 
 	m_modeStateMachine->Change("MainMenu", m_playerTeam, m_enemyTeam);
 
@@ -261,7 +261,7 @@ void Application2D::update(float deltaTime) {
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
-	 m_modeStateMachine->GetState()->Update(deltaTime);
+	 m_modeStateMachine->GetState()->update(deltaTime);
 }
 
 void Application2D::draw() {
@@ -275,7 +275,7 @@ void Application2D::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-	m_modeStateMachine->GetState()->Draw(*m_2dRenderer);
+	m_modeStateMachine->GetState()->draw(*m_2dRenderer);
 	
 	// show fps
 	
