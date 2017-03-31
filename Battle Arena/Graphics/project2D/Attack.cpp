@@ -124,7 +124,7 @@ std::vector<Effect>::iterator Attack::useAttack(Creature * user, MessageBar* mes
 	// Copy attack description to message bar
 	std::string attackMessage = user->getName() + m_description;
 	std::cout << attackMessage << std::endl;				//HACK message sent to console for debugging
-	message->SetMessage(attackMessage);
+	message->setMessage(attackMessage);
 	// Start user animation
 	user->startAnimation(m_Animation);
 	// Set attack cooldown
@@ -156,7 +156,7 @@ bool Attack::applyEffect(std::vector<Effect>::iterator effect, Creature * user, 
 		// Apply effect to its targets
 		if (effect->target == TargetType::SELF) {	// If effect targets (only) self, apply effect to self
 			user->applyEffect(modifiedInfo);
-			message->SetMessage(effect->useDescription);	// Copy effect description to message bar
+			message->setMessage(effect->useDescription);	// Copy effect description to message bar
 		}
 		else if (effect->areaEffect) {				// If area effect, iterate over all possible creatures in targetGroup
 			bool attackHit = false;
@@ -181,11 +181,11 @@ bool Attack::applyEffect(std::vector<Effect>::iterator effect, Creature * user, 
 				}
 			}
 			if (attackHit) {
-				message->SetMessage(effect->useDescription);	// Copy effect description to message bar
+				message->setMessage(effect->useDescription);	// Copy effect description to message bar
 			}
 			else {
 				// Display dodge message
-				message->SetMessage(effect->useDescription + " but nobody was affected");
+				message->setMessage(effect->useDescription + " but nobody was affected");
 			}
 		}
 		else {										// If single target, apply effect to creature in targetGroup at target position
@@ -195,11 +195,11 @@ bool Attack::applyEffect(std::vector<Effect>::iterator effect, Creature * user, 
 					modifiedInfo.value -= (int)(targetGroup->creature[target]->getAbility(it->first) * it->second);
 				}
 				targetGroup->creature[target]->applyEffect(modifiedInfo);
-				message->SetMessage(effect->useDescription);	// Copy effect description to message bar
+				message->setMessage(effect->useDescription);	// Copy effect description to message bar
 			}
 			else {
 				targetGroup->creature[target]->startAnimation(Animation::DUCK);
-				message->SetMessage(targetGroup->creature[target]->getName() + " avoided the attack");
+				message->setMessage(targetGroup->creature[target]->getName() + " avoided the attack");
 			}
 		}
 		return true;

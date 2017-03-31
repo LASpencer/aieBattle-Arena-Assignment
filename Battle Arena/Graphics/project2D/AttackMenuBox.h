@@ -17,7 +17,7 @@ public:
 
 	void setContents(std::vector<Attack*> &contents);
 
-	Attack* GetCurrent();
+	Attack* getCurrent();
 
 private:
 	typedef typename std::vector<Attack*>::iterator contentIterator;

@@ -93,7 +93,7 @@ void AttackMenuBox::setContents(std::vector<Attack*>& contents)
 	m_current = m_contents.begin();
 }
 
-Attack * AttackMenuBox::GetCurrent()
+Attack * AttackMenuBox::getCurrent()
 {
 	return *m_current;
 }

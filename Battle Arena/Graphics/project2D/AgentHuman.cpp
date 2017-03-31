@@ -36,7 +36,7 @@ void AgentHuman::update(float deltaTime)
 	if (!m_pickingTarget) {
 		m_attackMenu.update(deltaTime);
 		if (input->wasKeyPressed(aie::INPUT_KEY_SPACE)) {
-			m_chosenAttack = m_attackMenu.GetCurrent();
+			m_chosenAttack = m_attackMenu.getCurrent();
 			setTargetChoices();
 			m_pickingTarget = true;
 		}

@@ -110,7 +110,7 @@ Battle::Start::~Start()
 void Battle::Start::init()
 {
 	std::string startMessage = m_battle->m_enemyTeam->creature[0]->getName() + "'s band attacks the party!";
-	m_startMessage->SetMessage(startMessage);
+	m_startMessage->setMessage(startMessage);
 	m_timer = 0;
 }
 
@@ -155,7 +155,7 @@ void Battle::TakeTurn::init()
 		// Check creature is alive
 		if (m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->isAlive()) {
 			std::string turnMessage = m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->getName() + "'s turn";
-			m_turnMessage->SetMessage(turnMessage);
+			m_turnMessage->setMessage(turnMessage);
 			// Start creature's turn
 			m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->startTurn();
 		}
@@ -329,7 +329,7 @@ void Battle::SortTeams::init()
 		}
 		// Set message text
 		std::string msgText  = m_battle->m_playerTeam->creature[0]->getName() + " faces off against " + m_battle->m_enemyTeam->creature[0]->getName();
-		m_message->SetMessage(msgText);
+		m_message->setMessage(msgText);
 		//Reset timer
 		m_timer = 0;
 	}
@@ -377,7 +377,7 @@ Battle::BattleWin::~BattleWin() {
 void Battle::BattleWin::init()
 {
 	m_timer = 0;
-	m_winMessage->SetMessage("You have triumphed!");
+	m_winMessage->setMessage("You have triumphed!");
 }
 
 void Battle::BattleWin::exit()
@@ -410,7 +410,7 @@ Battle::BattleLoss::~BattleLoss() {
 void Battle::BattleLoss::init()
 {
 	m_timer = 0;
-	m_loseMessage->SetMessage("You were defeated");
+	m_loseMessage->setMessage("You were defeated");
 }
 
 void Battle::BattleLoss::exit()

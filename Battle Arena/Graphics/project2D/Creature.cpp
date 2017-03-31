@@ -145,7 +145,7 @@ bool Creature::applyOngoingEffect(std::vector<EffectInfo>::iterator effect, Mess
 	if (effect != m_ongoingEffect.end()) {
 		// Copy effect description to message bar
 		std::string msgText = m_name + effect->activateDescription;
-		message->SetMessage(msgText);
+		message->setMessage(msgText);
 		// Activate effect
 		activateEffect(*effect);
 		return true;

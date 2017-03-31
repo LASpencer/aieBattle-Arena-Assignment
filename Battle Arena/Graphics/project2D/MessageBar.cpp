@@ -11,7 +11,7 @@ MessageBar::MessageBar() : m_message(nullptr),m_xPos(0),m_yPos(0),m_boxColour(BO
 MessageBar::MessageBar(std::string message, float xPos, float yPos, unsigned int boxColour, unsigned int  textColour) : m_message(nullptr), m_xPos(xPos), m_yPos(yPos), m_boxColour(boxColour), m_textColour(textColour), m_font("./font/consolas.ttf", 32)
 {
 	
-	SetMessage(message);
+	setMessage(message);
 }
 
 
@@ -22,13 +22,13 @@ MessageBar::~MessageBar()
 	}
 }
 
-void MessageBar::SetPosition(float xPos, float yPos)
+void MessageBar::setPosition(float xPos, float yPos)
 {
 	m_xPos = xPos;
 	m_yPos = yPos;
 }
 
-void MessageBar::SetMessage(std::string message)
+void MessageBar::setMessage(std::string message)
 {
 	// Delete old message
 	if (m_message != nullptr) {
@@ -41,7 +41,7 @@ void MessageBar::SetMessage(std::string message)
 	m_message[message.length()] = 0;
 }
 
-void MessageBar::SetMessage(const char * message)
+void MessageBar::setMessage(const char * message)
 {
 	// Delete old message
 	if (m_message != nullptr) {
@@ -53,12 +53,12 @@ void MessageBar::SetMessage(const char * message)
 	strcpy(m_message, message);
 }
 
-void MessageBar::SetBoxColour(unsigned int boxColour)
+void MessageBar::setBoxColour(unsigned int boxColour)
 {
 	m_boxColour = boxColour;
 }
 
-void MessageBar::SetTextColour(unsigned int textColour)
+void MessageBar::setTextColour(unsigned int textColour)
 {
 	m_textColour = textColour;
 }

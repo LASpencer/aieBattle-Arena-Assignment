@@ -15,9 +15,9 @@ public:
 	void update(float deltaTime);
 	void draw(aie::Renderer2D &renderer);
 
-	void SetContents(std::vector<MainMenuOption> &contents);
+	void setContents(std::vector<MainMenuOption> &contents);
 
-	MainMenuOption GetCurrent();
+	MainMenuOption getCurrent();
 
 private:
 	typedef typename std::vector<MainMenuOption>::iterator contentIterator;

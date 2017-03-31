@@ -87,13 +87,13 @@ void MainMenuOptionMenuBox::draw(aie::Renderer2D & renderer)
 	}
 }
 
-void MainMenuOptionMenuBox::SetContents(std::vector<MainMenuOption>& contents)
+void MainMenuOptionMenuBox::setContents(std::vector<MainMenuOption>& contents)
 {
 	m_contents = contents;
 	m_current = m_contents.begin();
 }
 
-MainMenuOption MainMenuOptionMenuBox::GetCurrent()
+MainMenuOption MainMenuOptionMenuBox::getCurrent()
 {
 	return *m_current;
 }
