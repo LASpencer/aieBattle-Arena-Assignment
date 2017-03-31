@@ -22,7 +22,7 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
-	aie::Font* GetFont() {
+	aie::Font* getFont() {
 		return m_font;
 	}
 

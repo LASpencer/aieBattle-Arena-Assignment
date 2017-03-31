@@ -23,7 +23,7 @@ size_t PickRandom::SelectTarget()
 	size_t possibleTargets[Attack::MAX_RANGE + 1];
 	size_t possibleTargetsArraySize = 0;
 	// Set tgtArray based on attack target
-	switch (m_chosenAttack->GetMainTarget()) {
+	switch (m_chosenAttack->getMainTarget()) {
 	case TargetType::SELF:
 		m_target = m_position;
 		return m_target;
@@ -36,8 +36,8 @@ size_t PickRandom::SelectTarget()
 		break;
 	}
 	// Fill possibleTargets with all possible targets
-	for (size_t i = m_chosenAttack->GetMinTgt(); i <= m_chosenAttack->GetMaxTgt() && i<tgtArray->size; ++i) {
-		if (tgtArray->creature[i]->IsTargetable(m_chosenAttack->GetMainTarget())) {
+	for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt() && i<tgtArray->size; ++i) {
+		if (tgtArray->creature[i]->IsTargetable(m_chosenAttack->getMainTarget())) {
 			possibleTargets[possibleTargetsArraySize] = i;
 			++possibleTargetsArraySize;
 			break;

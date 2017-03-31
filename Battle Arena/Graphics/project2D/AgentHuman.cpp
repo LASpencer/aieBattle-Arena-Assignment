@@ -37,32 +37,32 @@ void AgentHuman::update(float deltaTime)
 		m_attackMenu.update(deltaTime);
 		if (input->wasKeyPressed(aie::INPUT_KEY_SPACE)) {
 			m_chosenAttack = m_attackMenu.GetCurrent();
-			SetTargetChoices();
+			setTargetChoices();
 			m_pickingTarget = true;
 		}
 	}
 	else {
 		if (input->wasKeyPressed(aie::INPUT_KEY_LEFT)) {
-			switch (m_chosenAttack->GetMainTarget()) {
+			switch (m_chosenAttack->getMainTarget()) {
 			case TargetType::SELF:
 				break;
 			case TargetType::FRIEND:
-				IncrementTargetChoice();	
+				incrementTargetChoice();	
 				break;
 			case TargetType::ENEMY:
-				DecrementTargetChoice();
+				decrementTargetChoice();
 				break;
 			}
 		}
 		else if (input->wasKeyPressed(aie::INPUT_KEY_RIGHT)) {
-			switch (m_chosenAttack->GetMainTarget()) {
+			switch (m_chosenAttack->getMainTarget()) {
 			case TargetType::SELF:
 				break;
 			case TargetType::FRIEND:
-				DecrementTargetChoice();
+				decrementTargetChoice();
 				break;
 			case TargetType::ENEMY:
-				IncrementTargetChoice();
+				incrementTargetChoice();
 				break;
 			}
 		}
@@ -78,7 +78,7 @@ void AgentHuman::update(float deltaTime)
 	}
 }
 
-void AgentHuman::SetTargetArrowSprite(aie::Texture * targetArrow)
+void AgentHuman::setTargetArrowSprite(aie::Texture * targetArrow)
 {
 	m_targetArrow = targetArrow;
 }
@@ -90,13 +90,13 @@ void AgentHuman::draw(aie::Renderer2D & renderer)
 		float indicatorXPos;
 		float indicatorYPos = Battle::GROUND_POS + 220;
 		renderer.setRenderColour(0xFFFFFFFF);
-		if(m_chosenAttack->IsAreaEffect()){
+		if(m_chosenAttack->isAreaEffect()){
 			size_t range[2];
-			m_chosenAttack->GetAreaEffectRange(range);
+			m_chosenAttack->getAreaEffectRange(range);
 			Creature** targetedCreature;
 			float startPos;
 			float positionModifier;
-			switch (m_chosenAttack->GetMainTarget()) {
+			switch (m_chosenAttack->getMainTarget()) {
 			case TargetType::SELF:
 			case TargetType::FRIEND:
 				startPos = Battle::PLAYER_TEAM_STARTPOS;
@@ -124,7 +124,7 @@ void AgentHuman::draw(aie::Renderer2D & renderer)
 			}
 		}
 		else {
-			switch (m_chosenAttack->GetMainTarget()) {
+			switch (m_chosenAttack->getMainTarget()) {
 			case TargetType::SELF:
 			case TargetType::FRIEND:
 				indicatorXPos = Battle::PLAYER_TEAM_STARTPOS - *m_targetIter * Battle::POSITION_WIDTH;
@@ -138,14 +138,14 @@ void AgentHuman::draw(aie::Renderer2D & renderer)
 	}
 }
 
-void AgentHuman::SetTargetChoices()
+void AgentHuman::setTargetChoices()
 {
 	CreatureArray* tgtArray;
 
 	// Empty targetChoices 
 	m_targetChoices.clear();
 
-	switch (m_chosenAttack->GetMainTarget()) {
+	switch (m_chosenAttack->getMainTarget()) {
 	case TargetType::SELF:
 	case TargetType::FRIEND:
 		tgtArray = m_friends;
@@ -154,12 +154,12 @@ void AgentHuman::SetTargetChoices()
 		tgtArray = m_enemies;
 		break;
 	}
-	if (m_chosenAttack->GetMainTarget() == TargetType::SELF) {
+	if (m_chosenAttack->getMainTarget() == TargetType::SELF) {
 		m_targetChoices.push_back(m_position);
 	}
 	else {
-		for (size_t i = m_chosenAttack->GetMinTgt(); i <= m_chosenAttack->GetMaxTgt() && i<tgtArray->size; ++i) {
-			if (tgtArray->creature[i]->IsTargetable(m_chosenAttack->GetMainTarget())) {
+		for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt() && i<tgtArray->size; ++i) {
+			if (tgtArray->creature[i]->IsTargetable(m_chosenAttack->getMainTarget())) {
 				m_targetChoices.push_back(i);
 			}
 		}
@@ -167,7 +167,7 @@ void AgentHuman::SetTargetChoices()
 	m_targetIter = m_targetChoices.begin();
 }
 
-void AgentHuman::IncrementTargetChoice()
+void AgentHuman::incrementTargetChoice()
 {
 	++m_targetIter;
 	if (m_targetIter >= m_targetChoices.end()) {
@@ -175,7 +175,7 @@ void AgentHuman::IncrementTargetChoice()
 	}
 }
 
-void AgentHuman::DecrementTargetChoice()
+void AgentHuman::decrementTargetChoice()
 {
 	if (m_targetIter > m_targetChoices.begin()) {
 		--m_targetIter;

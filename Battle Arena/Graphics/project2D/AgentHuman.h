@@ -13,20 +13,20 @@ public:
 
 	virtual void startTurn(CreatureArray* friends, CreatureArray* enemies, size_t position);
 	virtual void update(float deltaTime);
-	void SetTargetArrowSprite(aie::Texture* targetArrow);
+	void setTargetArrowSprite(aie::Texture* targetArrow);
 	virtual void draw(aie::Renderer2D &renderer);
 
 	static const float ATTACK_MENU_XPOS;
 	static const float ATTACK_MENU_YPOS;
 
 protected:
-	virtual void SetTargetChoices();
+	virtual void setTargetChoices();
 
 	// Increment m_targetIter unless it hits end of vector
-	void IncrementTargetChoice();
+	void incrementTargetChoice();
 
 	// Decrement m_targetIter unless it passes beginning of vector
-	void DecrementTargetChoice();
+	void decrementTargetChoice();
 
 	AttackMenuBox m_attackMenu;
 	aie::Texture* m_targetArrow;

@@ -76,7 +76,7 @@ std::string Creature::GetName()
 	return m_name;
 }
 
-void Creature::ApplyEffect(const EffectInfo &effectInfo)
+void Creature::applyEffect(const EffectInfo &effectInfo)
 {
 	ActivateEffect(effectInfo);
 	//If effect duration >0, push effect onto ongoing effects
@@ -309,7 +309,7 @@ void Creature::SetAttackCD(Attack * attack)
 {
 	for (std::vector<AttackInfo>::iterator it = m_attacks.begin(); it != m_attacks.end(); ++it) {
 		if (it->attack == attack) {
-			it->cdTimer = attack->GetCooldown();
+			it->cdTimer = attack->getCooldown();
 			break;
 		}
 	}
@@ -337,17 +337,17 @@ bool Creature::IsAttackAllowed(AttackInfo attackInfo, CreatureArray friends, Cre
 		attackAllowed = false;
 	}
 	// Check if attack can be made from this position
-	else if (attack->GetMinPos() > position || attack->GetMaxPos() < position) {	
+	else if (attack->getMinPos() > position || attack->getMaxPos() < position) {	
 		attackAllowed = false;
 	}else {
 	// Check if valid target exists
-		switch (attack->GetMainTarget()) {
+		switch (attack->getMainTarget()) {
 		case TargetType::SELF:
 			attackAllowed = true;
 			break;
 		case TargetType::FRIEND:
 			attackAllowed = false;
-			for (size_t i = attack->GetMinTgt(); i < friends.size && i <= attack->GetMaxTgt(); i++) {
+			for (size_t i = attack->getMinTgt(); i < friends.size && i <= attack->getMaxTgt(); i++) {
 				if (friends.creature[i]->IsTargetable(TargetType::FRIEND)) {
 					attackAllowed = true;
 					break;
@@ -356,7 +356,7 @@ bool Creature::IsAttackAllowed(AttackInfo attackInfo, CreatureArray friends, Cre
 			break;
 		case TargetType::ENEMY:
 			attackAllowed = false;
-			for (size_t i = attack->GetMinTgt(); i < enemies.size && i <= attack->GetMaxTgt(); i++) {
+			for (size_t i = attack->getMinTgt(); i < enemies.size && i <= attack->getMaxTgt(); i++) {
 				if (enemies.creature[i]->IsTargetable(TargetType::ENEMY)) {
 					attackAllowed = true;
 					break;

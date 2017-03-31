@@ -21,7 +21,7 @@ size_t PickFirstOption::SelectTarget()
 {
 	CreatureArray* tgtArray;
 	// Set array of possible targets based on attack target
-	switch (m_chosenAttack->GetMainTarget()) {
+	switch (m_chosenAttack->getMainTarget()) {
 	case TargetType::SELF:
 		m_target = m_position;
 		return m_target;
@@ -34,8 +34,8 @@ size_t PickFirstOption::SelectTarget()
 		break;
 	}
 	// Select first valid target in tgtArray
-	for (size_t i = m_chosenAttack->GetMinTgt(); i <= m_chosenAttack->GetMaxTgt() && i<tgtArray->size; ++i) {
-		if (tgtArray->creature[i]->IsTargetable(m_chosenAttack->GetMainTarget())) {
+	for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt() && i<tgtArray->size; ++i) {
+		if (tgtArray->creature[i]->IsTargetable(m_chosenAttack->getMainTarget())) {
 			m_target = i;
 			break;
 		}

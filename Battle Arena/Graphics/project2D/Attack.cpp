@@ -16,7 +16,7 @@ Attack::Attack()
 
 Attack::Attack(AttackData data, std::map<int, Effect> &effectMap)
 {
-	SetAttackData(data, effectMap);
+	setAttackData(data, effectMap);
 }
 
 
@@ -24,7 +24,7 @@ Attack::~Attack()
 {
 }
 
-void Attack::SetAttackData(AttackData data, std::map<int, Effect> &effectMap)
+void Attack::setAttackData(AttackData data, std::map<int, Effect> &effectMap)
 {
 	m_name = data.name;
 	m_description = data.description;
@@ -36,11 +36,11 @@ void Attack::SetAttackData(AttackData data, std::map<int, Effect> &effectMap)
 	m_mainTarget = data.mainTarget;
 	m_Animation = data.animation;
 	for (std::vector<int>::iterator i = data.effectID.begin(); i != data.effectID.end(); ++i) {
-		AddEffect(effectMap[*i]);
+		addEffect(effectMap[*i]);
 	}
 }
 
-bool Attack::AddEffect(const Effect &effect)
+bool Attack::addEffect(const Effect &effect)
 {
 	bool validEffect = true;
 	bool effectLimitsTarget = false;
@@ -78,7 +78,7 @@ std::vector<Effect>* Attack::GetEffects()
 	return &m_effects;
 }
 
-bool Attack::IsAreaEffect()
+bool Attack::isAreaEffect()
 {
 	bool nonSelfExists = false;
 	bool areaEffect = true;
@@ -93,7 +93,7 @@ bool Attack::IsAreaEffect()
 	return nonSelfExists && areaEffect;
 }
 
-bool Attack::GetAreaEffectRange(size_t range[2])
+bool Attack::getAreaEffectRange(size_t range[2])
 {
 	bool hasAreaEffect = false;
 	size_t minTgt = MAX_RANGE;
@@ -118,7 +118,7 @@ bool Attack::GetAreaEffectRange(size_t range[2])
 	return hasAreaEffect;
 }
 
-std::vector<Effect>::iterator Attack::UseAttack(Creature * user, MessageBar* message)
+std::vector<Effect>::iterator Attack::useAttack(Creature * user, MessageBar* message)
 {
 
 	// Copy attack description to message bar
@@ -134,7 +134,7 @@ std::vector<Effect>::iterator Attack::UseAttack(Creature * user, MessageBar* mes
 	return m_effects.begin();
 }
 
-bool Attack::ApplyEffect(std::vector<Effect>::iterator effect, Creature * user, size_t target, CreatureArray * friends, CreatureArray * enemies, bool dodgeArray[], MessageBar* message)
+bool Attack::applyEffect(std::vector<Effect>::iterator effect, Creature * user, size_t target, CreatureArray * friends, CreatureArray * enemies, bool dodgeArray[], MessageBar* message)
 {
 	if (effect != m_effects.end()) {
 		std::cout << effect->useDescription << std::endl;			//HACK message sent to console for debugging
@@ -155,7 +155,7 @@ bool Attack::ApplyEffect(std::vector<Effect>::iterator effect, Creature * user, 
 		}
 		// Apply effect to its targets
 		if (effect->target == TargetType::SELF) {	// If effect targets (only) self, apply effect to self
-			user->ApplyEffect(modifiedInfo);
+			user->applyEffect(modifiedInfo);
 			message->SetMessage(effect->useDescription);	// Copy effect description to message bar
 		}
 		else if (effect->areaEffect) {				// If area effect, iterate over all possible creatures in targetGroup
@@ -172,7 +172,7 @@ bool Attack::ApplyEffect(std::vector<Effect>::iterator effect, Creature * user, 
 						if (modifiedInfo.value < 0) {
 							modifiedInfo.value = 0;
 						}
-						targetGroup->creature[i]->ApplyEffect(modifiedInfo);
+						targetGroup->creature[i]->applyEffect(modifiedInfo);
 						attackHit = true;
 					}
 					else {
@@ -194,7 +194,7 @@ bool Attack::ApplyEffect(std::vector<Effect>::iterator effect, Creature * user, 
 				for (std::map<Ability, float>::iterator it = effect->abilityDefModifier.begin(); it != effect->abilityDefModifier.end(); ++it) {
 					modifiedInfo.value -= (int)(targetGroup->creature[target]->getAbility(it->first) * it->second);
 				}
-				targetGroup->creature[target]->ApplyEffect(modifiedInfo);
+				targetGroup->creature[target]->applyEffect(modifiedInfo);
 				message->SetMessage(effect->useDescription);	// Copy effect description to message bar
 			}
 			else {

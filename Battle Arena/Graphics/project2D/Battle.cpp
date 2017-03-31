@@ -256,7 +256,7 @@ void Battle::PerformAttack::init()
 		m_dodgeArray[i] = (rand() % 100 < evasion);
 	}
 	// Get first effect
-	m_effectIter = m_battle->m_attack->UseAttack(m_activeCreature, m_attackMsg);
+	m_effectIter = m_battle->m_attack->useAttack(m_activeCreature, m_attackMsg);
 	// Reset timer to 0
 	m_msgTimer = 0;
 }
@@ -271,7 +271,7 @@ void Battle::PerformAttack::update(float deltaTime)
 	m_msgTimer += deltaTime;
 	if (m_msgTimer > 1) {
 		// Apply current effect(if it's not end of vector)
-		if (m_battle->m_attack->ApplyEffect(m_effectIter, m_activeCreature, m_battle->m_target, m_battle->m_activeTeam, m_battle->m_passiveTeam, m_dodgeArray, m_attackMsg))
+		if (m_battle->m_attack->applyEffect(m_effectIter, m_activeCreature, m_battle->m_target, m_battle->m_activeTeam, m_battle->m_passiveTeam, m_dodgeArray, m_attackMsg))
 		{
 			// Reset timer and go to next effect
 			m_msgTimer = 0;

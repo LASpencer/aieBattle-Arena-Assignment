@@ -48,7 +48,7 @@ void AttackMenuBox::draw(aie::Renderer2D & renderer)
 		size_t arraySize = 0;
 		float maxWidth = 0;
 		for (contentIterator it = m_contents.begin(); it != m_contents.end(); ++it) {
-			std::string name = (*it)->GetName();
+			std::string name = (*it)->getName();
 			options[arraySize].name = new char[name.length() + 1];
 			options[arraySize].length = name.length();
 			name.copy(options[arraySize].name, options[arraySize].length, 0);

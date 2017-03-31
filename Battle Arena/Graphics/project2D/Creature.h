@@ -65,7 +65,7 @@ public:
 	int getBaseAbility(Ability ability);
 	std::string GetName();
 
-	void ApplyEffect(const EffectInfo &effectInfo);
+	void applyEffect(const EffectInfo &effectInfo);
 	void ActivateEffect(const EffectInfo &effectInfo);
 	int ApplyDamage(int damage);
 	void Heal(int damage);
