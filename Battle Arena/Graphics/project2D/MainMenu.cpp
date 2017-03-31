@@ -52,7 +52,7 @@ void MainMenu::update(float deltaTime)
 	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE)) {
 		switch (m_mainMenuBox->GetCurrent().GetOption()) {
 		case Option::PLAY:
-			dynamic_cast<GameModeStateMachine*>(m_stateMachine)->Change("Battle", m_playerTeam, m_enemyTeam);
+			dynamic_cast<GameModeStateMachine*>(m_stateMachine)->change("Battle", m_playerTeam, m_enemyTeam);
 			break;
 		case Option::QUIT:
 			m_application->quit();

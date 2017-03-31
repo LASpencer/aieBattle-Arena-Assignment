@@ -7,7 +7,7 @@ public:
 	MaximizeDamagePercent();
 	~MaximizeDamagePercent();
 
-	Attack* SelectAttack();
-	size_t SelectTarget();
+	Attack* selectAttack();
+	size_t selectTarget();
 };
 

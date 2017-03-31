@@ -11,13 +11,13 @@ PickRandom::~PickRandom()
 {
 }
 
-Attack * PickRandom::SelectAttack()
+Attack * PickRandom::selectAttack()
 {
 	m_chosenAttack = (*m_possibleAttacks)[rand() % m_possibleAttacks->size()];
 	return m_chosenAttack;
 }
 
-size_t PickRandom::SelectTarget()
+size_t PickRandom::selectTarget()
 {
 	CreatureArray* tgtArray;
 	size_t possibleTargets[Attack::MAX_RANGE + 1];
@@ -37,7 +37,7 @@ size_t PickRandom::SelectTarget()
 	}
 	// Fill possibleTargets with all possible targets
 	for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt() && i<tgtArray->size; ++i) {
-		if (tgtArray->creature[i]->IsTargetable(m_chosenAttack->getMainTarget())) {
+		if (tgtArray->creature[i]->isTargetable(m_chosenAttack->getMainTarget())) {
 			possibleTargets[possibleTargetsArraySize] = i;
 			++possibleTargetsArraySize;
 			break;

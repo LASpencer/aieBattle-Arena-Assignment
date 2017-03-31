@@ -10,7 +10,7 @@ public:
 	GameModeStateMachine();
 	~GameModeStateMachine();
 
-	void Change(std::string stateName, CreatureArray* playerTeam , CreatureArray* enemyTeam);
+	void change(std::string stateName, CreatureArray* playerTeam , CreatureArray* enemyTeam);
 	/* Adds new State to map, if State cannot be cast as GameModeState throws argument exception
 		name = new state key
 		state = pointer to new state

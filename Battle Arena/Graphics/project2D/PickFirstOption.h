@@ -7,7 +7,7 @@ public:
 	PickFirstOption();
 	~PickFirstOption();
 
-	Attack* SelectAttack();
-	size_t SelectTarget();
+	Attack* selectAttack();
+	size_t selectTarget();
 };
 

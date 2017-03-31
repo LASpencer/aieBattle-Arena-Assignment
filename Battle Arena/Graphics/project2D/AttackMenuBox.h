@@ -15,7 +15,7 @@ public:
 	void update(float deltaTime);
 	void draw(aie::Renderer2D &renderer);
 
-	void SetContents(std::vector<Attack*> &contents);
+	void setContents(std::vector<Attack*> &contents);
 
 	Attack* GetCurrent();
 

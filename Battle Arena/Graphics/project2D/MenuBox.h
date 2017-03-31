@@ -35,16 +35,16 @@ public:
 	virtual void draw(aie::Renderer2D &renderer) = 0;
 	
 
-	void SetPosition(float xPos, float yPos) {
+	void setPosition(float xPos, float yPos) {
 		m_xPos = xPos;
 		m_yPos = yPos;
 	}
 
-	void SetBoxColour(unsigned int colour) {
+	void setBoxColour(unsigned int colour) {
 		m_boxColour = colour;
 	}
 
-	void SetTextColour(unsigned int colour) {
+	void setTextColour(unsigned int colour) {
 		m_textColour = colour;
 	}
 

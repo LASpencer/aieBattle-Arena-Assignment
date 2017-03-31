@@ -7,7 +7,7 @@ public:
 	PickRandom();
 	~PickRandom();
 
-	Attack* SelectAttack();
-	size_t SelectTarget();
+	Attack* selectAttack();
+	size_t selectTarget();
 };
 

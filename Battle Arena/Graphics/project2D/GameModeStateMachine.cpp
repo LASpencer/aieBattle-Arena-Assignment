@@ -11,7 +11,7 @@ GameModeStateMachine::~GameModeStateMachine()
 {
 }
 
-void GameModeStateMachine::Change(std::string name, CreatureArray * playerTeam, CreatureArray * enemyTeam = nullptr)
+void GameModeStateMachine::change(std::string name, CreatureArray * playerTeam, CreatureArray * enemyTeam = nullptr)
 {
 	if (m_currentState != nullptr) {
 		m_currentState->exit();

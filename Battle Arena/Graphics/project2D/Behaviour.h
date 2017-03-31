@@ -14,18 +14,18 @@ public:
 	Behaviour();
 	~Behaviour();
 
-	void SetFriends(CreatureArray* friends);
-	void SetEnemies(CreatureArray* enemies);
-	void SetPosition(size_t position);
-	void SetCreature(Creature* creature);
-	void SetPossibleAttacks(std::vector<Attack*>* possibleAttacks);
+	void setFriends(CreatureArray* friends);
+	void setEnemies(CreatureArray* enemies);
+	void setPosition(size_t position);
+	void setCreature(Creature* creature);
+	void setPossibleAttacks(std::vector<Attack*>* possibleAttacks);
 
-	virtual Attack* SelectAttack() = 0;
-	virtual size_t SelectTarget() = 0;
+	virtual Attack* selectAttack() = 0;
+	virtual size_t selectTarget() = 0;
 
 	// Calculates damage dealt to creatures at each position on enemy team, copying damage to targeted creature to targetedDamage array and area effect damage to areaDamage array
-	void CalculateAttackDamage(Attack * attack, int targetedDamage[], int areaDamage[]);
-	void CalculateAttackValue(Attack* attack, EffectType effectType, TargetType targetGroup, Ability ability, int targetedValue[], int areaValue[]);
+	void calculateAttackDamage(Attack * attack, int targetedDamage[], int areaDamage[]);
+	void calculateAttackValue(Attack* attack, EffectType effectType, TargetType targetGroup, Ability ability, int targetedValue[], int areaValue[]);
 
 protected:
 	Creature* m_creature;

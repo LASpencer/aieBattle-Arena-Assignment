@@ -12,37 +12,37 @@ Behaviour::~Behaviour()
 {
 }
 
-void Behaviour::SetFriends(CreatureArray * friends)
+void Behaviour::setFriends(CreatureArray * friends)
 {
 	m_friends = friends;
 }
 
-void Behaviour::SetEnemies(CreatureArray * enemies)
+void Behaviour::setEnemies(CreatureArray * enemies)
 {
 	m_enemies = enemies;
 }
 
-void Behaviour::SetPosition(size_t position)
+void Behaviour::setPosition(size_t position)
 {
 	m_position = position;
 }
 
-void Behaviour::SetCreature(Creature * creature)
+void Behaviour::setCreature(Creature * creature)
 {
 	m_creature = creature;
 }
 
-void Behaviour::SetPossibleAttacks(std::vector<Attack*>* possibleAttacks)
+void Behaviour::setPossibleAttacks(std::vector<Attack*>* possibleAttacks)
 {
 	m_possibleAttacks = possibleAttacks;
 }
 
-void Behaviour::CalculateAttackDamage(Attack * attack, int targetedDamage[], int areaDamage[])
+void Behaviour::calculateAttackDamage(Attack * attack, int targetedDamage[], int areaDamage[])
 {
-	CalculateAttackValue(attack, EffectType::DAMAGE, TargetType::ENEMY,Ability::HEALTH, targetedDamage, areaDamage);
+	calculateAttackValue(attack, EffectType::DAMAGE, TargetType::ENEMY,Ability::HEALTH, targetedDamage, areaDamage);
 }
 
-void Behaviour::CalculateAttackValue(Attack * attack, EffectType effectType, TargetType targetGroup, Ability ability, int targetedValue[], int areaValue[])
+void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, TargetType targetGroup, Ability ability, int targetedValue[], int areaValue[])
 {
 	std::vector<Effect>* effects = attack->GetEffects();
 	//Set damage arrays to 0

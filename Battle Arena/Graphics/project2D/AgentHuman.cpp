@@ -25,8 +25,8 @@ AgentHuman::~AgentHuman()
 void AgentHuman::startTurn(CreatureArray * friends, CreatureArray * enemies, size_t position)
 {
 	Agent::startTurn(friends, enemies, position);
-	m_attackMenu.SetContents(m_possibleAttacks);
-	m_attackMenu.SetPosition(ATTACK_MENU_XPOS - (position * Battle::POSITION_WIDTH), ATTACK_MENU_YPOS);
+	m_attackMenu.setContents(m_possibleAttacks);
+	m_attackMenu.setPosition(ATTACK_MENU_XPOS - (position * Battle::POSITION_WIDTH), ATTACK_MENU_YPOS);
 	m_pickingTarget = false;
 }
 
@@ -159,7 +159,7 @@ void AgentHuman::setTargetChoices()
 	}
 	else {
 		for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt() && i<tgtArray->size; ++i) {
-			if (tgtArray->creature[i]->IsTargetable(m_chosenAttack->getMainTarget())) {
+			if (tgtArray->creature[i]->isTargetable(m_chosenAttack->getMainTarget())) {
 				m_targetChoices.push_back(i);
 			}
 		}

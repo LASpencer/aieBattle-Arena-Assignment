@@ -122,14 +122,14 @@ std::vector<Effect>::iterator Attack::useAttack(Creature * user, MessageBar* mes
 {
 
 	// Copy attack description to message bar
-	std::string attackMessage = user->GetName() + m_description;
+	std::string attackMessage = user->getName() + m_description;
 	std::cout << attackMessage << std::endl;				//HACK message sent to console for debugging
 	message->SetMessage(attackMessage);
 	// Start user animation
-	user->StartAnimation(m_Animation);
+	user->startAnimation(m_Animation);
 	// Set attack cooldown
 	if (m_cooldown > 0) {
-		user->SetAttackCD(this);
+		user->setAttackCD(this);
 	}
 	return m_effects.begin();
 }
@@ -176,7 +176,7 @@ bool Attack::applyEffect(std::vector<Effect>::iterator effect, Creature * user, 
 						attackHit = true;
 					}
 					else {
-						targetGroup->creature[i]->StartAnimation(Animation::DUCK);
+						targetGroup->creature[i]->startAnimation(Animation::DUCK);
 					}
 				}
 			}
@@ -198,8 +198,8 @@ bool Attack::applyEffect(std::vector<Effect>::iterator effect, Creature * user, 
 				message->SetMessage(effect->useDescription);	// Copy effect description to message bar
 			}
 			else {
-				targetGroup->creature[target]->StartAnimation(Animation::DUCK);
-				message->SetMessage(targetGroup->creature[target]->GetName() + " avoided the attack");
+				targetGroup->creature[target]->startAnimation(Animation::DUCK);
+				message->SetMessage(targetGroup->creature[target]->getName() + " avoided the attack");
 			}
 		}
 		return true;

@@ -18,7 +18,7 @@ Creature::Creature() : m_xSlidePos(0), m_ySlidePos(0)
 
 Creature::Creature(std::string name,aie::Texture* sprite, aie::Texture* dead,  std::map<Ability, int>& baseAbilities, std::vector<int> attackID, std::map<int, Attack>& attackMap) : m_xSlidePos(0), m_ySlidePos(0)
 {
-	Initialize(name, sprite, dead, baseAbilities, attackID, attackMap);
+	initialize(name, sprite, dead, baseAbilities, attackID, attackMap);
 }
 
 
@@ -27,7 +27,7 @@ Creature::~Creature()
 	delete m_agent;
 }
 
-void Creature::Initialize(std::string name, aie::Texture* sprite, aie::Texture* dead, std::map<Ability, int>& baseAbilities, std::vector<int> attackID, std::map<int, Attack>& attackMap)
+void Creature::initialize(std::string name, aie::Texture* sprite, aie::Texture* dead, std::map<Ability, int>& baseAbilities, std::vector<int> attackID, std::map<int, Attack>& attackMap)
 {
 	//TODO convert as much as possible to initializaiton list
 	m_name = name;
@@ -42,7 +42,7 @@ void Creature::Initialize(std::string name, aie::Texture* sprite, aie::Texture* 
 	}
 	m_health = m_ability[Ability::HEALTH].base;
 	for (std::vector<int>::iterator it = attackID.begin(); it != attackID.end(); ++it) {
-		AddAttack(&attackMap[*it]);				// HACK only works if map never changes during program
+		addAttack(&attackMap[*it]);				// HACK only works if map never changes during program
 	}
 }
 
@@ -51,7 +51,7 @@ bool Creature::isAlive()
 	return m_health > 0;
 }
 
-bool Creature::IsTargetable(TargetType effectType)
+bool Creature::isTargetable(TargetType effectType)
 {
 	return isAlive();
 }
@@ -71,34 +71,34 @@ int Creature::getBaseAbility(Ability ability)
 	return m_ability[ability].base;
 }
 
-std::string Creature::GetName()
+std::string Creature::getName()
 {
 	return m_name;
 }
 
 void Creature::applyEffect(const EffectInfo &effectInfo)
 {
-	ActivateEffect(effectInfo);
+	activateEffect(effectInfo);
 	//If effect duration >0, push effect onto ongoing effects
 	if (effectInfo.duration > 0) {
 		m_ongoingEffect.push_back(effectInfo);
 	}
 }
 
-void Creature::ActivateEffect(const EffectInfo &effectInfo)
+void Creature::activateEffect(const EffectInfo &effectInfo)
 {
 	std::cout << m_name << effectInfo.activateDescription<<std::endl; //HACK messages should be sent to a messageBar
 	switch (effectInfo.type) {
 	case EffectType::DAMAGE:
-			ApplyDamage(effectInfo.value);
+			applyDamage(effectInfo.value);
 			break;
 	case EffectType::HEAL:
-				Heal(effectInfo.value);
+				heal(effectInfo.value);
 			break;
 	case EffectType::BUFF:
 		m_ability[effectInfo.ability].modified += effectInfo.value;
 		if (effectInfo.ability == Ability::HEALTH) {
-			Heal(effectInfo.value);
+			heal(effectInfo.value);
 		}
 		break;
 	case EffectType::DEBUFF:
@@ -110,10 +110,10 @@ void Creature::ActivateEffect(const EffectInfo &effectInfo)
 	}
 
 	// Start effect animation
-	StartAnimation(effectInfo.animation);
+	startAnimation(effectInfo.animation);
 }
 
-int Creature::ApplyDamage(int damage)
+int Creature::applyDamage(int damage)
 {
 	int damageTaken = m_health;
 	m_health -= damage;
@@ -126,7 +126,7 @@ int Creature::ApplyDamage(int damage)
 	return damageTaken;
 }
 
-void Creature::Heal(int damage)
+void Creature::heal(int damage)
 {
 	int maxHealth = m_ability[Ability::HEALTH].modified;
 	m_health += damage;
@@ -135,19 +135,19 @@ void Creature::Heal(int damage)
 	}
 }
 
-std::vector<EffectInfo>::iterator Creature::GetFirstOngoingEffect()
+std::vector<EffectInfo>::iterator Creature::getFirstOngoingEffect()
 {
 	return m_ongoingEffect.begin();
 }
 
-bool Creature::ApplyOngoingEffect(std::vector<EffectInfo>::iterator effect, MessageBar * message)
+bool Creature::applyOngoingEffect(std::vector<EffectInfo>::iterator effect, MessageBar * message)
 {
 	if (effect != m_ongoingEffect.end()) {
 		// Copy effect description to message bar
 		std::string msgText = m_name + effect->activateDescription;
 		message->SetMessage(msgText);
 		// Activate effect
-		ActivateEffect(*effect);
+		activateEffect(*effect);
 		return true;
 	}
 	else {
@@ -259,13 +259,13 @@ void Creature::draw(aie::Renderer2D & renderer, float xPos, float yPos)
 	}
 }
 
-void Creature::StartAnimation(Animation animation)
+void Creature::startAnimation(Animation animation)
 {
 	m_animation = animation;
 	m_animationTimer = 0;
 }
 
-void Creature::SetSlidePos(float xPos, float yPos)
+void Creature::setSlidePos(float xPos, float yPos)
 {
 	m_xSlidePos = xPos;
 	m_ySlidePos = yPos;
@@ -305,7 +305,7 @@ void Creature::endTurn()
 	}
 }
 
-void Creature::SetAttackCD(Attack * attack)
+void Creature::setAttackCD(Attack * attack)
 {
 	for (std::vector<AttackInfo>::iterator it = m_attacks.begin(); it != m_attacks.end(); ++it) {
 		if (it->attack == attack) {
@@ -316,7 +316,7 @@ void Creature::SetAttackCD(Attack * attack)
 }
 
 
-bool Creature::AddAttack(Attack *attack)
+bool Creature::addAttack(Attack *attack)
 {
 	if (m_attacks.size() < NUM_ATTACKS) {
 		AttackInfo attackInfo = { attack, 0 };
@@ -329,7 +329,7 @@ bool Creature::AddAttack(Attack *attack)
 
 
 
-bool Creature::IsAttackAllowed(AttackInfo attackInfo, CreatureArray friends, CreatureArray enemies, size_t position)
+bool Creature::isAttackAllowed(AttackInfo attackInfo, CreatureArray friends, CreatureArray enemies, size_t position)
 {
 	bool attackAllowed;
 	Attack *attack = attackInfo.attack;
@@ -348,7 +348,7 @@ bool Creature::IsAttackAllowed(AttackInfo attackInfo, CreatureArray friends, Cre
 		case TargetType::FRIEND:
 			attackAllowed = false;
 			for (size_t i = attack->getMinTgt(); i < friends.size && i <= attack->getMaxTgt(); i++) {
-				if (friends.creature[i]->IsTargetable(TargetType::FRIEND)) {
+				if (friends.creature[i]->isTargetable(TargetType::FRIEND)) {
 					attackAllowed = true;
 					break;
 				}
@@ -357,7 +357,7 @@ bool Creature::IsAttackAllowed(AttackInfo attackInfo, CreatureArray friends, Cre
 		case TargetType::ENEMY:
 			attackAllowed = false;
 			for (size_t i = attack->getMinTgt(); i < enemies.size && i <= attack->getMaxTgt(); i++) {
-				if (enemies.creature[i]->IsTargetable(TargetType::ENEMY)) {
+				if (enemies.creature[i]->isTargetable(TargetType::ENEMY)) {
 					attackAllowed = true;
 					break;
 				}
@@ -368,18 +368,18 @@ bool Creature::IsAttackAllowed(AttackInfo attackInfo, CreatureArray friends, Cre
 	return attackAllowed;
 }
 
-std::vector<Attack*> Creature::GetPossibleAttacks(CreatureArray friends, CreatureArray enemies, size_t position)
+std::vector<Attack*> Creature::getPossibleAttacks(CreatureArray friends, CreatureArray enemies, size_t position)
 {
 	std::vector<Attack*> possibleAttacks;
 	for (std::vector<AttackInfo>::iterator it = m_attacks.begin(); it != m_attacks.end(); ++it) {
-		if(IsAttackAllowed(*it, friends, enemies, position)){
+		if(isAttackAllowed(*it, friends, enemies, position)){
 			possibleAttacks.push_back(it->attack);
 		}
 	}
 	return possibleAttacks;
 }
 
-void Creature::SetAgent(Agent * agent)
+void Creature::setAgent(Agent * agent)
 {
 	m_agent = agent;
 	m_agent->setCreature(this);

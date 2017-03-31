@@ -201,14 +201,14 @@ bool Application2D::startup() {
 				m_enemyTeam->creature[3] = new Creature("Imp", m_imp, m_dead, ImpAbility, { 18,4,10 }, *m_attackMap);	
 				m_enemyTeam->size = 4;
 
-				m_playerTeam->creature[0]->SetAgent(new AgentHuman(m_targetArrow));
-				m_playerTeam->creature[1]->SetAgent(new AgentHuman(m_targetArrow));
-				m_playerTeam->creature[2]->SetAgent(new AgentHuman(m_targetArrow));
-				m_playerTeam->creature[3]->SetAgent(new AgentHuman(m_targetArrow));
-				m_enemyTeam->creature[0]->SetAgent(new AgentAI(new MaximizeDamagePercent()));
-				m_enemyTeam->creature[1]->SetAgent(new AgentAI(new PickFirstOption()));
-				m_enemyTeam->creature[2]->SetAgent(new AgentAI(new MaximizeDamage()));
-				m_enemyTeam->creature[3]->SetAgent(new AgentAI(new MaximizeDamage()));
+				m_playerTeam->creature[0]->setAgent(new AgentHuman(m_targetArrow));
+				m_playerTeam->creature[1]->setAgent(new AgentHuman(m_targetArrow));
+				m_playerTeam->creature[2]->setAgent(new AgentHuman(m_targetArrow));
+				m_playerTeam->creature[3]->setAgent(new AgentHuman(m_targetArrow));
+				m_enemyTeam->creature[0]->setAgent(new AgentAI(new MaximizeDamagePercent()));
+				m_enemyTeam->creature[1]->setAgent(new AgentAI(new PickFirstOption()));
+				m_enemyTeam->creature[2]->setAgent(new AgentAI(new MaximizeDamage()));
+				m_enemyTeam->creature[3]->setAgent(new AgentAI(new MaximizeDamage()));
 
 
 	m_modeStateMachine = new GameModeStateMachine;
@@ -217,7 +217,7 @@ bool Application2D::startup() {
 	m_modeStateMachine->add("GameOver", new GameOver(this));
 	m_modeStateMachine->add("VictoryScreen", new VictoryScreen(this));
 
-	m_modeStateMachine->Change("MainMenu", m_playerTeam, m_enemyTeam);
+	m_modeStateMachine->change("MainMenu", m_playerTeam, m_enemyTeam);
 
 	m_cameraX = 0;
 	m_cameraY = 0;

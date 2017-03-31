@@ -43,6 +43,11 @@ struct CreatureArray {
 	size_t size;
 };
 
+struct AttackInfo {
+	Attack* attack;
+	int cdTimer;
+};
+
 class Creature
 {
 public:
@@ -51,47 +56,43 @@ public:
 	~Creature();
 
 	//TODO initialize creature from loaded values
-	void Initialize(std::string name, aie::Texture* sprite, aie::Texture* dead, std::map<Ability, int> &baseAbilities, std::vector<int> attackID, std::map<int, Attack> &attackMap);
+	void initialize(std::string name, aie::Texture* sprite, aie::Texture* dead, std::map<Ability, int> &baseAbilities, std::vector<int> attackID, std::map<int, Attack> &attackMap);
 
-	struct AttackInfo {
-		Attack* attack;
-		int cdTimer;
-	};
 
 	bool isAlive();
-	bool IsTargetable(TargetType effectType);
+	bool isTargetable(TargetType effectType);
 	int getHealth();
 	int getAbility(Ability ability);
 	int getBaseAbility(Ability ability);
-	std::string GetName();
+	std::string getName();
 
 	void applyEffect(const EffectInfo &effectInfo);
-	void ActivateEffect(const EffectInfo &effectInfo);
-	int ApplyDamage(int damage);
-	void Heal(int damage);
+	void activateEffect(const EffectInfo &effectInfo);
+	int applyDamage(int damage);
+	void heal(int damage);
 
-	std::vector<EffectInfo>::iterator GetFirstOngoingEffect();
-	bool ApplyOngoingEffect(std::vector<EffectInfo>::iterator effect, MessageBar* message);
+	std::vector<EffectInfo>::iterator getFirstOngoingEffect();
+	bool applyOngoingEffect(std::vector<EffectInfo>::iterator effect, MessageBar* message);
 
 	void update(float deltaTime);
 	void draw(aie::Renderer2D &renderer, float xPos, float yPos);
 
-	void StartAnimation(Animation animation);
+	void startAnimation(Animation animation);
 
 	// Sets start position for slide animation
-	void SetSlidePos(float xPos, float yPos);
+	void setSlidePos(float xPos, float yPos);
 
 	void startTurn();
 	void endTurn();
-	void SetAttackCD(Attack* attack);
-	bool IsAttackAllowed(AttackInfo attackInfo, CreatureArray friends, CreatureArray enemies, size_t position);
-	std::vector<Attack*> GetPossibleAttacks(CreatureArray friends, CreatureArray enemies, size_t position);
-	void SetAgent(Agent* agent); //HACK setting agent in constructor leads to losing it
-	Agent* GetAgent() {
+	void setAttackCD(Attack* attack);
+	bool isAttackAllowed(AttackInfo attackInfo, CreatureArray friends, CreatureArray enemies, size_t position);
+	std::vector<Attack*> getPossibleAttacks(CreatureArray friends, CreatureArray enemies, size_t position);
+	void setAgent(Agent* agent); //HACK setting agent in constructor leads to losing it
+	Agent* getAgent() {
 		return m_agent;
 	}
 
-	bool AddAttack(Attack *attack);
+	bool addAttack(Attack *attack);
 
 	static const size_t NUM_ATTACKS = 4;
 

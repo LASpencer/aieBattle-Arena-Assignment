@@ -13,7 +13,7 @@ MaximizeDamagePercent::~MaximizeDamagePercent()
 {
 }
 
-Attack * MaximizeDamagePercent::SelectAttack()
+Attack * MaximizeDamagePercent::selectAttack()
 {
 	float maxDamagePercent = 0.0f;
 	// Set m_chosenAttack and m_target to first options in case no attacks do damage
@@ -33,7 +33,7 @@ Attack * MaximizeDamagePercent::SelectAttack()
 	if (m_chosenAttack->getMainTarget() != TargetType::SELF)
 	{
 		for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt() && i < tgtArray->size; ++i) {
-			if (tgtArray->creature[i]->IsTargetable(m_chosenAttack->getMainTarget())) {
+			if (tgtArray->creature[i]->isTargetable(m_chosenAttack->getMainTarget())) {
 				m_target = i;
 				break;
 			}
@@ -44,7 +44,7 @@ Attack * MaximizeDamagePercent::SelectAttack()
 		int areaDamage[Attack::MAX_RANGE + 1];
 		float attackMaxDamagePercent = 0.0f;
 		size_t target = 0;
-		CalculateAttackDamage(*it, targetedDamage, areaDamage);
+		calculateAttackDamage(*it, targetedDamage, areaDamage);
 		// Set attackMaxDamagePercent to highest damage to health ratio among enemies
 		for (size_t i = 0; i < Attack::MAX_RANGE + 1; ++i) {
 			float totalDamagePercent = (float)(targetedDamage[i] + areaDamage[i]) / (float)(m_enemies->creature[i]->getHealth());
@@ -58,7 +58,7 @@ Attack * MaximizeDamagePercent::SelectAttack()
 			float maxTargetedDamagePercent = -1.0f;		// Start with negative value so first valid target found will be picked
 			for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt(); ++i) {
 				float targetedDamagePercent = (float)(targetedDamage[i]) / (float)(m_enemies->creature[i]->getHealth());
-				if (targetedDamagePercent > maxTargetedDamagePercent&&m_enemies->creature[i]->IsTargetable(TargetType::ENEMY)) {
+				if (targetedDamagePercent > maxTargetedDamagePercent&&m_enemies->creature[i]->isTargetable(TargetType::ENEMY)) {
 					m_target = i;
 					maxTargetedDamagePercent = targetedDamagePercent;
 				}
@@ -68,7 +68,7 @@ Attack * MaximizeDamagePercent::SelectAttack()
 	return m_chosenAttack;
 }
 
-size_t MaximizeDamagePercent::SelectTarget()
+size_t MaximizeDamagePercent::selectTarget()
 {
 	return m_target;
 }

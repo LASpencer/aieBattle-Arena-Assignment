@@ -16,7 +16,7 @@ void Agent::startTurn(CreatureArray * friends, CreatureArray * enemies, size_t p
 	m_friends = friends;
 	m_enemies = enemies;
 	m_position = position;
-	m_possibleAttacks = m_creature->GetPossibleAttacks(*friends, *enemies, position);
+	m_possibleAttacks = m_creature->getPossibleAttacks(*friends, *enemies, position);
 	m_decided = false;
 }
 

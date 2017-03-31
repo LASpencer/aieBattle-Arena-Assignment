@@ -50,7 +50,7 @@ void Battle::init()
 	m_passiveTeam = m_enemyTeam;
 	m_turnPosition = 0;				//Start with first creature
 	m_activeCreaturePosition = 0;
-	m_turnStateMachine->Change("Start");
+	m_turnStateMachine->change("Start");
 }
 
 void Battle::init(CreatureArray* playerTeam, CreatureArray* enemyTeam) {
@@ -109,7 +109,7 @@ Battle::Start::~Start()
 
 void Battle::Start::init()
 {
-	std::string startMessage = m_battle->m_enemyTeam->creature[0]->GetName() + "'s band attacks the party!";
+	std::string startMessage = m_battle->m_enemyTeam->creature[0]->getName() + "'s band attacks the party!";
 	m_startMessage->SetMessage(startMessage);
 	m_timer = 0;
 }
@@ -123,7 +123,7 @@ void Battle::Start::update(float deltaTime)
 	// Exit to TakeTurn after 1 second
 	m_timer += deltaTime;
 	if (m_timer > 1) {
-			m_stateMachine->Change("TakeTurn");
+			m_stateMachine->change("TakeTurn");
 	}
 }
 
@@ -154,7 +154,7 @@ void Battle::TakeTurn::init()
 		++m_battle->m_turnPosition;
 		// Check creature is alive
 		if (m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->isAlive()) {
-			std::string turnMessage = m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->GetName() + "'s turn";
+			std::string turnMessage = m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->getName() + "'s turn";
 			m_turnMessage->SetMessage(turnMessage);
 			// Start creature's turn
 			m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->startTurn();
@@ -174,7 +174,7 @@ void Battle::TakeTurn::init()
 		m_battle->m_passiveTeam = temp;
 		// If enemy team just played, turn is over so exit to SortTeams
 		if (m_battle->m_activeTeam == m_battle->m_playerTeam) {
-			m_stateMachine->Change("SortTeams");
+			m_stateMachine->change("SortTeams");
 		}
 		// Else re-initialize TakeTurn state with new team
 		else {
@@ -192,7 +192,7 @@ void Battle::TakeTurn::update(float deltaTime)
 	m_msgTimer += deltaTime;
 	// After displaying message for 1 second, exit to OngoingEffects
 	if (m_msgTimer > 1) {
-		m_stateMachine->Change("OngoingEffects");
+		m_stateMachine->change("OngoingEffects");
 	}
 }
 
@@ -209,11 +209,11 @@ void Battle::SelectAction::init()
 {
 	m_battle->m_attack = nullptr;
 	// Pass information to active creature's agent
-	m_agent = m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->GetAgent();
+	m_agent = m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition]->getAgent();
 	m_agent->startTurn(m_battle->m_activeTeam, m_battle->m_passiveTeam, m_battle->m_activeCreaturePosition);
 	// Check if agent has possible moves and end turn if not
 	if (!m_agent->canTakeTurn()) {
-		m_stateMachine->Change("TakeTurn");
+		m_stateMachine->change("TakeTurn");
 	}
 }
 
@@ -229,7 +229,7 @@ void Battle::SelectAction::update(float deltaTime)
 	if (m_agent->hasDecided()) {
 		m_battle->m_attack = m_agent->getChosenAttack();
 		m_battle->m_target = m_agent->getTarget();
-		m_stateMachine->Change("PerformAttack");
+		m_stateMachine->change("PerformAttack");
 	}
 }
 
@@ -279,7 +279,7 @@ void Battle::PerformAttack::update(float deltaTime)
 		}
 		else {
 			// Exit to next character's turn
-			m_stateMachine->Change("TakeTurn");
+			m_stateMachine->change("TakeTurn");
 		}
 	}
 }
@@ -309,26 +309,26 @@ void Battle::SortTeams::init()
 	SortCreatureArray(m_battle->m_enemyTeam);
 	// If playerTeam is dead, exit to BattleLoss
 	if (!m_battle->m_playerTeam->creature[0]->isAlive()) {
-		m_stateMachine->Change("BattleLoss");
+		m_stateMachine->change("BattleLoss");
 	// If enemyTeam is dead, exit to BattleWin
 	}
 	else if (!m_battle->m_enemyTeam->creature[0]->isAlive()) {
-		m_stateMachine->Change("BattleWin");
+		m_stateMachine->change("BattleWin");
 	}
 	else {
 	// Else make creatures slide to new positions
 		for (size_t i = 0; i < m_battle->m_playerTeam->size; ++i) {
 			int difference = (int)i - (int)startPosition[m_battle->m_playerTeam->creature[i]];
-			m_battle->m_playerTeam->creature[i]->SetSlidePos(difference * POSITION_WIDTH, 0);
-			m_battle->m_playerTeam->creature[i]->StartAnimation(Animation::SLIDE);
+			m_battle->m_playerTeam->creature[i]->setSlidePos(difference * POSITION_WIDTH, 0);
+			m_battle->m_playerTeam->creature[i]->startAnimation(Animation::SLIDE);
 		}
 		for (size_t i = 0; i < m_battle->m_enemyTeam->size; ++i) {
 			int difference = (int)i - (int)startPosition[m_battle->m_enemyTeam->creature[i]];
-			m_battle->m_enemyTeam->creature[i]->SetSlidePos(difference * (-POSITION_WIDTH), 0);
-			m_battle->m_enemyTeam->creature[i]->StartAnimation(Animation::SLIDE);
+			m_battle->m_enemyTeam->creature[i]->setSlidePos(difference * (-POSITION_WIDTH), 0);
+			m_battle->m_enemyTeam->creature[i]->startAnimation(Animation::SLIDE);
 		}
 		// Set message text
-		std::string msgText  = m_battle->m_playerTeam->creature[0]->GetName() + " faces off against " + m_battle->m_enemyTeam->creature[0]->GetName();
+		std::string msgText  = m_battle->m_playerTeam->creature[0]->getName() + " faces off against " + m_battle->m_enemyTeam->creature[0]->getName();
 		m_message->SetMessage(msgText);
 		//Reset timer
 		m_timer = 0;
@@ -345,7 +345,7 @@ void Battle::SortTeams::update(float deltaTime)
 	// Wait for creatures to slide into position
 	m_timer += deltaTime;
 	if (m_timer > 1) {
-		m_stateMachine->Change("TakeTurn");
+		m_stateMachine->change("TakeTurn");
 	}
 }
 
@@ -390,7 +390,7 @@ void Battle::BattleWin::update(float deltaTime)
 	// Battle state exits to VictoryScreen
 	m_timer += deltaTime;
 	if (m_timer > 1) {
-		m_battle->m_stateMachine->Change("VictoryScreen");
+		m_battle->m_stateMachine->change("VictoryScreen");
 	}
 }
 
@@ -422,7 +422,7 @@ void Battle::BattleLoss::update(float deltaTime)
 	// Battle state exits to Game Over
 	m_timer += deltaTime;
 	if (m_timer > 1) {
-		m_battle->m_stateMachine->Change("GameOver");
+		m_battle->m_stateMachine->change("GameOver");
 	}
 }
 
@@ -439,7 +439,7 @@ void Battle::OngoingEffects::init()
 {
 	m_activeCreature = m_battle->m_activeTeam->creature[m_battle->m_activeCreaturePosition];
 	// Get first effect
-	m_effectIter = m_activeCreature->GetFirstOngoingEffect();
+	m_effectIter = m_activeCreature->getFirstOngoingEffect();
 	// Set timer to 1, so first effect is checked
 	m_timer = 1;
 }
@@ -454,7 +454,7 @@ void Battle::OngoingEffects::update(float deltaTime)
 	m_timer += deltaTime;
 	if (m_timer > 1) {
 		// Apply current effect (if not at end of vector)
-		if (m_activeCreature->isAlive() && m_activeCreature->ApplyOngoingEffect(m_effectIter, m_message)) {
+		if (m_activeCreature->isAlive() && m_activeCreature->applyOngoingEffect(m_effectIter, m_message)) {
 			// Reset timer and go to next effect
 			m_timer = 0;
 			++m_effectIter;
@@ -462,11 +462,11 @@ void Battle::OngoingEffects::update(float deltaTime)
 		else {
 			if (m_activeCreature->isAlive()) {
 				// If still alive, exit to SelectAction
-				m_stateMachine->Change("SelectAction");
+				m_stateMachine->change("SelectAction");
 			}
 			else {
 				// Else, exit to next creature's turn
-				m_stateMachine->Change("TakeTurn");
+				m_stateMachine->change("TakeTurn");
 			}
 		}
 	}

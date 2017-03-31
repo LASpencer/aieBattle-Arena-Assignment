@@ -87,7 +87,7 @@ void AttackMenuBox::draw(aie::Renderer2D & renderer)
 	}
 }
 
-void AttackMenuBox::SetContents(std::vector<Attack*>& contents)
+void AttackMenuBox::setContents(std::vector<Attack*>& contents)
 {
 	m_contents = contents;
 	m_current = m_contents.begin();

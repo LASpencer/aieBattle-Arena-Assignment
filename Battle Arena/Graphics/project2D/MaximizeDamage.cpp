@@ -11,7 +11,7 @@ MaximizeDamage::~MaximizeDamage()
 {
 }
 
-Attack * MaximizeDamage::SelectAttack()
+Attack * MaximizeDamage::selectAttack()
 {
 	int maxDamage = 0;
 	// Set m_chosenAttack and m_target to first options in case no attacks do damage
@@ -31,7 +31,7 @@ Attack * MaximizeDamage::SelectAttack()
 	if(m_chosenAttack->getMainTarget() != TargetType::SELF)
 	{
 	for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt() && i < tgtArray->size; ++i) {
-		if (tgtArray->creature[i]->IsTargetable(m_chosenAttack->getMainTarget())) {
+		if (tgtArray->creature[i]->isTargetable(m_chosenAttack->getMainTarget())) {
 			m_target = i;
 			break;
 		}
@@ -41,7 +41,7 @@ Attack * MaximizeDamage::SelectAttack()
 		int targetedDamage[Attack::MAX_RANGE + 1];
 		int areaDamage[Attack::MAX_RANGE + 1];
 		int totalDamage = 0;
-		CalculateAttackDamage(*it, targetedDamage, areaDamage);
+		calculateAttackDamage(*it, targetedDamage, areaDamage);
 		// Set totalDamage to highest value in targetedDamage
 		for (size_t i = 0; i < Attack::MAX_RANGE + 1; ++i) {
 			if (targetedDamage[i] > totalDamage) {
@@ -58,7 +58,7 @@ Attack * MaximizeDamage::SelectAttack()
 			m_chosenAttack = *it;
 			int maxTargetedDamage = -1;		// Start with negative value so first valid target found will be picked
 			for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt(); ++i) {
-				if (targetedDamage[i] > maxTargetedDamage && m_enemies->creature[i]->IsTargetable(TargetType::ENEMY)) {
+				if (targetedDamage[i] > maxTargetedDamage && m_enemies->creature[i]->isTargetable(TargetType::ENEMY)) {
 					m_target = i;
 					maxTargetedDamage = targetedDamage[i];
 				}
@@ -68,7 +68,7 @@ Attack * MaximizeDamage::SelectAttack()
 	return m_chosenAttack;
 }
 
-size_t MaximizeDamage::SelectTarget()
+size_t MaximizeDamage::selectTarget()
 {
 	return m_target;
 }

@@ -16,7 +16,7 @@ StateMachine::~StateMachine()
 	}
 }
 
-void StateMachine::Change(std::string stateName)
+void StateMachine::change(std::string stateName)
 {
 	if (m_currentState != nullptr) {
 		m_currentState->exit();

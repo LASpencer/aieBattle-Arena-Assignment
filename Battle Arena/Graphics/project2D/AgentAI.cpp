@@ -18,19 +18,19 @@ AgentAI::~AgentAI()
 
 void AgentAI::startTurn(CreatureArray * friends, CreatureArray * enemies, size_t position) {
 	Agent::startTurn(friends, enemies, position);
-	m_behaviour->SetCreature(m_creature);
-	m_behaviour->SetFriends(friends);
-	m_behaviour->SetEnemies(enemies);
-	m_behaviour->SetPosition(position);
-	m_behaviour->SetPossibleAttacks(&m_possibleAttacks);
+	m_behaviour->setCreature(m_creature);
+	m_behaviour->setFriends(friends);
+	m_behaviour->setEnemies(enemies);
+	m_behaviour->setPosition(position);
+	m_behaviour->setPossibleAttacks(&m_possibleAttacks);
 }
 
 void AgentAI::update(float deltaTime)
 {
 	// Get chosen attack from current behaviour
-	m_chosenAttack = m_behaviour->SelectAttack();
+	m_chosenAttack = m_behaviour->selectAttack();
 	// Get target from current behaviour
-	m_target = m_behaviour->SelectTarget();
+	m_target = m_behaviour->selectTarget();
 	m_decided = true;
 }
 
