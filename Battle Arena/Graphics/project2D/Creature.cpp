@@ -205,7 +205,7 @@ void Creature::update(float deltaTime)
 				m_yPos = (m_animationTimer / 0.1f) * 25.0f;
 			}
 			else if(m_animationTimer < 0.9f){
-				m_yPos = (4 * sinf(3 * (3.1415f)*((m_animationTimer - 0.1) / 0.8)))+25.0f;
+				m_yPos = (4 * sinf(3 * (3.1415f)*((m_animationTimer - 0.1f) / 0.8f)))+25.0f;
 			}
 			else {
 				m_yPos = ((1 - m_animationTimer) / 0.1f)*25.0f;

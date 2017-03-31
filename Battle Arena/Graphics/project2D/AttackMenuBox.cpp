@@ -67,7 +67,7 @@ void AttackMenuBox::draw(aie::Renderer2D & renderer)
 		}
 		// Draw box
 		renderer.setRenderColour(m_boxColour);
-		renderer.drawBox((m_xPos + MARGIN + maxWidth / 2), m_yPos - (float)((LINE_HEIGHT / 2)*(arraySize)), maxWidth + (2 * MARGIN), arraySize * LINE_HEIGHT); //HACK fix type conversion
+		renderer.drawBox((m_xPos + MARGIN + maxWidth / 2), m_yPos - (float)((LINE_HEIGHT / 2)*(arraySize)), maxWidth + (2 * MARGIN), (float)arraySize * LINE_HEIGHT); //HACK fix type conversion
 																																							   // Draw text (if current, use selectColour for text)
 		for (size_t i = 0; i < arraySize; ++i) {
 			//set colour

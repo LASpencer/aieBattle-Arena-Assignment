@@ -33,7 +33,7 @@ bool Application2D::startup() {
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	m_effectMap = new std::map<int, Effect>();
 	//{key,{useDescription,{activateDescription,type,duration,value,ability,animation},baseValue,minTgt,maxTgt,areaEffect,target,{abilityOffModifier},{abilityDefModifier}

@@ -14,9 +14,9 @@ struct OptionInfo {
 class MenuBox
 {
 public:
-	static const int MARGIN = 3;		//TODO these should be floats, use base class to work around issue
-	static const int LINE_HEIGHT = 40;
-	static const int TEXT_OFFSET = 9;
+	static const float MARGIN;
+	static const float LINE_HEIGHT;
+	static const float TEXT_OFFSET;
 
 	MenuBox() : m_xPos(0), m_yPos(0), m_boxColour(0x202020FF), m_textColour(0xFFFFFFFF), m_selectColour(0x22AAAAFF), m_font("./font/consolas.ttf", 32)
 	{

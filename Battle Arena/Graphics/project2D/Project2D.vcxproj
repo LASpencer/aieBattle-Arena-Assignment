@@ -107,6 +107,7 @@
     <ClCompile Include="MainMenuOptionMenuBox.cpp" />
     <ClCompile Include="MaximizeDamage.cpp" />
     <ClCompile Include="MaximizeDamagePercent.cpp" />
+    <ClCompile Include="MenuBox.cpp" />
     <ClCompile Include="MessageBar.cpp" />
     <ClCompile Include="PickFirstOption.cpp" />
     <ClCompile Include="PickRandom.cpp" />
