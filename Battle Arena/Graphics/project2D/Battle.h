@@ -54,7 +54,7 @@ public:
 	friend class Start;
 	/*
 	TakeTurn
-	Selects creature to take turn and exits to SelectAction, or SortTeams if no creatures left
+	Selects creature to take turn and exits to OngoingEffects, or SortTeams if no creatures left
 	*/
 	class TakeTurn : public State {
 	public:

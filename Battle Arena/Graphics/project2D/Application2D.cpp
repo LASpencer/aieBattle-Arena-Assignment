@@ -228,7 +228,7 @@ bool Application2D::startup() {
 
 void Application2D::shutdown() {
 	
-	delete m_modeStateMachine;
+	delete m_modeStateMachine; //TODO test this actually deletes everything
 	delete m_sword;
 	delete m_assassin;
 	delete m_monk;
@@ -276,12 +276,5 @@ void Application2D::draw() {
 	m_2dRenderer->begin();
 
 	m_modeStateMachine->getState()->draw(*m_2dRenderer);
-	
-	// show fps
-	
-	char fps[32];
-	m_2dRenderer->setRenderColour(1, 1, 0, 1);
-	sprintf_s(fps, 32, "FPS: %i", getFPS());
-	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
-	m_2dRenderer->end();
+
 }

@@ -18,6 +18,7 @@ AgentAI::~AgentAI()
 
 void AgentAI::startTurn(CreatureArray * friends, CreatureArray * enemies, size_t position) {
 	Agent::startTurn(friends, enemies, position);
+	// Pass all information to current behaviour
 	m_behaviour->setCreature(m_creature);
 	m_behaviour->setFriends(friends);
 	m_behaviour->setEnemies(enemies);

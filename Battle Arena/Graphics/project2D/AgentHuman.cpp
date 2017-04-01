@@ -25,6 +25,7 @@ AgentHuman::~AgentHuman()
 void AgentHuman::startTurn(CreatureArray * friends, CreatureArray * enemies, size_t position)
 {
 	Agent::startTurn(friends, enemies, position);
+	// Put vector of current attacks in attack menu
 	m_attackMenu.setContents(m_possibleAttacks);
 	m_attackMenu.setPosition(ATTACK_MENU_XPOS - (position * Battle::POSITION_WIDTH), ATTACK_MENU_YPOS);
 	m_pickingTarget = false;
@@ -33,9 +34,9 @@ void AgentHuman::startTurn(CreatureArray * friends, CreatureArray * enemies, siz
 void AgentHuman::update(float deltaTime)
 {
 	aie::Input* input = aie::Input::getInstance();
-	if (!m_pickingTarget) {
-		m_attackMenu.update(deltaTime);
-		if (input->wasKeyPressed(aie::INPUT_KEY_SPACE)) {
+	if (!m_pickingTarget) {										// If attack hasn't been chosen yet
+		m_attackMenu.update(deltaTime);							// Update attack menu
+		if (input->wasKeyPressed(aie::INPUT_KEY_SPACE)) {		// Check if player has chosen their attack
 			m_chosenAttack = m_attackMenu.getCurrent();
 			setTargetChoices();
 			m_pickingTarget = true;
@@ -43,26 +44,26 @@ void AgentHuman::update(float deltaTime)
 	}
 	else {
 		if (input->wasKeyPressed(aie::INPUT_KEY_LEFT)) {
-			switch (m_chosenAttack->getMainTarget()) {
+			switch (m_chosenAttack->getMainTarget()) {			// Check if player is chosing a friendly or enemy target
 			case TargetType::SELF:
 				break;
 			case TargetType::FRIEND:
-				incrementTargetChoice();	
+				incrementTargetChoice();						// For player team, left is higher index
 				break;
 			case TargetType::ENEMY:
-				decrementTargetChoice();
+				decrementTargetChoice();						// For enemy team, left is lower index
 				break;
 			}
 		}
 		else if (input->wasKeyPressed(aie::INPUT_KEY_RIGHT)) {
-			switch (m_chosenAttack->getMainTarget()) {
+			switch (m_chosenAttack->getMainTarget()) {			// Check if player is chosing a friendly or enemy target
 			case TargetType::SELF:
 				break;
 			case TargetType::FRIEND:
-				decrementTargetChoice();
+				decrementTargetChoice();						// For player team, right is lower index
 				break;
 			case TargetType::ENEMY:
-				incrementTargetChoice();
+				incrementTargetChoice();						// For enemy team, left is higher index
 				break;
 			}
 		}
@@ -85,54 +86,59 @@ void AgentHuman::setTargetArrowSprite(aie::Texture * targetArrow)
 
 void AgentHuman::draw(aie::Renderer2D & renderer)
 {
+	// Draw attack menu
 	m_attackMenu.draw(renderer);
 	if (m_pickingTarget) {
-		float indicatorXPos;
-		float indicatorYPos = Battle::GROUND_POS + 220;
+		float indicatorXPos;								// xPos of sprite chosen
+		float indicatorYPos = Battle::GROUND_POS + 220;		// 20 pixels above sprite
 		renderer.setRenderColour(0xFFFFFFFF);
 		if(m_chosenAttack->isAreaEffect()){
-			size_t range[2];
+			// If area effect attack chosen, draw arrows over all affected creatures
+			size_t range[2];								// Start and end target positions
 			m_chosenAttack->getAreaEffectRange(range);
 			Creature** targetedCreature;
-			float startPos;
-			float positionModifier;
-			switch (m_chosenAttack->getMainTarget()) {
+			float startPos;									// x coordinate of creature 0 in array
+			float positionModifier;							// distance between creatures in same team
+			switch (m_chosenAttack->getMainTarget()) {		// Check if friendly or enemy team
 			case TargetType::SELF:
 			case TargetType::FRIEND:
 				startPos = Battle::PLAYER_TEAM_STARTPOS;
-				positionModifier = -Battle::POSITION_WIDTH;
+				positionModifier = -Battle::POSITION_WIDTH;	// Player creatures move left as index increases
 				targetedCreature = m_friends->creature;
 				if (range[1] > m_friends->size) {
-					range[1] = m_friends->size;
+					range[1] = m_friends->size-1;			// Check max target position is valid index
 				}
 				break;
 			case TargetType::ENEMY:
 				startPos = Battle::ENEMY_TEAM_STARTPOS;
-				positionModifier = Battle::POSITION_WIDTH;
+				positionModifier = Battle::POSITION_WIDTH;	// Enemy creatures move right as index increases
 				targetedCreature = m_enemies->creature;
 				if (range[1] >= m_enemies->size) {
-					range[1] = m_enemies->size-1;
+					range[1] = m_enemies->size-1;			// Check max target position is valid index
 				}
 				break;
 			}
-
-			for (size_t i = range[0]; i <= range[1]; ++i) {
-				indicatorXPos = startPos + positionModifier * i;
-				if (targetedCreature[i]->isAlive()) {
+			for (size_t i = range[0]; i <= range[1]; ++i) {			// Iterate over all creatures in range
+				indicatorXPos = startPos + positionModifier * i;	// Set target arrow position to above that creature
+				if (targetedCreature[i]->isAlive()) {				// If creature alive, draw arrow over it
 					renderer.drawSprite(m_targetArrow,indicatorXPos,indicatorYPos);
 				}
 			}
 		}
 		else {
+			// If single target effect, draw arrow over currently selected target
 			switch (m_chosenAttack->getMainTarget()) {
 			case TargetType::SELF:
 			case TargetType::FRIEND:
+				// If Player team, increasing index moves arrow left (decrease x coordinate)
 				indicatorXPos = Battle::PLAYER_TEAM_STARTPOS - *m_targetIter * Battle::POSITION_WIDTH;
 				break;
 			case TargetType::ENEMY:
+				// If enemy team, increasing index moves arrow right (increase x coordinate)
 				indicatorXPos = Battle::ENEMY_TEAM_STARTPOS + *m_targetIter*Battle::POSITION_WIDTH;
 				break;
 			}
+			// Draw arrow over selected target
 			renderer.drawSprite(m_targetArrow, indicatorXPos, indicatorYPos);
 		}
 	}

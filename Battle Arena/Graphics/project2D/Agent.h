@@ -12,6 +12,11 @@ public:
 	Agent();
 	~Agent();
 
+	/*Tells Agent its creature's turn has started and passes it necessary information to pick an attack
+	friends = Pointer to agent's creature's team
+	enemies = Pointer to enemy team
+	position = Position of agent's creature in team
+	*/
 	virtual void startTurn(CreatureArray* friends, CreatureArray* enemies, size_t position);
 
 	virtual void update(float deltaTime)=0;
@@ -21,15 +26,18 @@ public:
 		m_creature = creature;
 	}
 
+	// Check if agent has picked an attack and target yet
 	bool hasDecided() {
 		return m_decided;
 	}
 
+	// Check if creature has any possible attacks to make
 	bool canTakeTurn();
 
 	size_t getTarget() {
 		return m_target;
 	}
+
 	Attack* getChosenAttack() {
 		return m_chosenAttack;
 	}
