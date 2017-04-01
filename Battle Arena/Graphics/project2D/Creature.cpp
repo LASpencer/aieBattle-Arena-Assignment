@@ -283,7 +283,6 @@ void Creature::endTurn()
 {
 	// decrease cdTimer on attacks
 	for (std::vector<AttackInfo>::iterator it = m_attacks.begin(); it != m_attacks.end(); ++it) {
-		//HACK as written cooldown of 1 == cooldown of 0, decide what exactly cooldown means and rewrite to match
 		if (it->cdTimer > 0) {
 			it->cdTimer--;
 		}

@@ -62,14 +62,14 @@ bool Application2D::startup() {
 				{1,Attack({ "Strike", " strikes with their blade", 0,0,0,0,0,TargetType::ENEMY,{ 1 },Animation::JUMP }, *m_effectMap) },
 				{2, Attack({ "Shoot", " looses an arrow",1,3,0,3,0,TargetType::ENEMY,{ 2 },Animation::JUMP },  *m_effectMap)},
 				{3,Attack({ "Charge", " charges into the enemy",0,1,0,0,2,TargetType::ENEMY,{ 3 },Animation::JUMP }, *m_effectMap)},
-				{4,Attack({"Fireball", " casts Fireball",1,3,0,3,4,TargetType::ENEMY,{4},Animation::JUMP}, *m_effectMap)},
+				{4,Attack({"Fireball", " casts Fireball",1,3,0,3,3,TargetType::ENEMY,{4},Animation::JUMP}, *m_effectMap)},
 				{5,Attack({"Cure", " casts a healing spell",1,3,0,3,0,TargetType::FRIEND,{5},Animation::HOVER},*m_effectMap)},
 				{6,Attack({"Rest", " catches their breath",0,3,0,3,0,TargetType::SELF,{6},Animation::NONE}, *m_effectMap)},
 				{7,Attack({"Assassin's Blade", " lashes out with their dagger",0,0,0,0,0,TargetType::ENEMY,{1,7},Animation::JUMP}, *m_effectMap)},
 				{8,Attack({"Poison Dart", " throws a small dart",1,3,0,3,0,TargetType::ENEMY,{7}, Animation::JUMP},*m_effectMap)},
-				{9,Attack({"Divine Shield", " begs for divine protection", 0,3,0,3,4,TargetType::FRIEND,{8}, Animation::HOVER},*m_effectMap)},
+				{9,Attack({"Divine Shield", " begs for divine protection", 0,3,0,3,3,TargetType::FRIEND,{8}, Animation::HOVER},*m_effectMap)},
 				{10,Attack({"Curse", " calls on evil spirits", 0,3,0,3,2,TargetType::ENEMY,{9},Animation::HOVER}, *m_effectMap)},
-				{11,Attack({"Zombie Bite", " bites its opponent",0,0,0,0,2,TargetType::ENEMY,{10,11},Animation::JUMP},*m_effectMap)},
+				{11,Attack({"Zombie Bite", " bites its opponent",0,0,0,0,1,TargetType::ENEMY,{10,11},Animation::JUMP},*m_effectMap)},
 				{12,Attack({"Groan", " groans and lurches around",0,3,0,3,0,TargetType::SELF,{},Animation::NONE},*m_effectMap)},
 				{13,Attack({"Poison Bite", " bites their opponent",0,0,0,0,0,TargetType::ENEMY,{10,7},Animation::JUMP},*m_effectMap)},
 				{14,Attack({"Magic Blast", " casts an attack spell",1,3,0,3,0,TargetType::ENEMY,{12},Animation::JUMP},*m_effectMap)},
@@ -115,7 +115,7 @@ bool Application2D::startup() {
 
 			std::map<Ability, int>WitchAbility = {
 				{ Ability::STRENGTH, 0 },
-				{ Ability::ACCURACY,1 },
+				{ Ability::ACCURACY,0 },
 				{ Ability::MYSTIC,2 },
 				{ Ability::HOLY,0 },
 				{ Ability::TOUGHNESS,0 },
@@ -191,7 +191,7 @@ bool Application2D::startup() {
 
 				//HACK creatures should be initialized elsewhere
 				m_playerTeam->creature[0] = new Creature("Swordsman", m_sword, m_dead, SwordsmanAbility, { 1,3,6,15 }, *m_attackMap); 
-				m_playerTeam->creature[1] = new Creature("Assassin", m_assassin, m_dead, AssassinAbility, { 7,8 }, *m_attackMap);
+				m_playerTeam->creature[1] = new Creature("Assassin", m_assassin, m_dead, AssassinAbility, { 7,2,8 }, *m_attackMap);
 				m_playerTeam->creature[2] = new Creature("Mendicant", m_monk, m_dead, MendicantAbility, { 1,5,9,17 }, *m_attackMap);
 				m_playerTeam->creature[3] = new Creature("Witch", m_witch, m_dead, WitchAbility, {14,4,10 }, *m_attackMap);
 				m_playerTeam->size = 4;
@@ -277,4 +277,5 @@ void Application2D::draw() {
 
 	m_modeStateMachine->getState()->draw(*m_2dRenderer);
 
+	m_2dRenderer->end();
 }
