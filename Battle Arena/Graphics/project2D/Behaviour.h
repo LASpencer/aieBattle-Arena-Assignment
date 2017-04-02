@@ -24,11 +24,11 @@ public:
 	void setPossibleAttacks(std::vector<Attack*>* possibleAttacks);
 
 	/* Returns pointer to attack chosen from m_possibleAttacks
-		This value is then assigned to m_chosenAttack
+		This value is then assigned to m_chosenAttack. Some implementations may also assign m_target
 	*/
 	virtual Attack* selectAttack() = 0;
 	/* Returns index of valid target for m_chosenAttack
-	 This value is then assigned to m_target
+	 This may be selected and then assigned to m_target, or just read from m_target
 	*/
 	virtual size_t selectTarget() = 0;
 
@@ -57,7 +57,7 @@ protected:
 	CreatureArray* m_friends;
 	std::vector<Attack*>* m_possibleAttacks;
 	size_t m_position;
-	Attack* m_chosenAttack;
-	size_t m_target;
+	Attack* m_chosenAttack;			// Last attack chosen by selectAttack
+	size_t m_target;				// Last target chosen by selectTarget
 };
 

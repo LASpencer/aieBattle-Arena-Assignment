@@ -30,28 +30,33 @@ Attack * MaximizeDamagePercent::selectAttack()
 		tgtArray = m_enemies;
 		break;
 	}
-	if (m_chosenAttack->getMainTarget() != TargetType::SELF)
+	if (m_chosenAttack->getMainTarget() != TargetType::SELF)		// if target isn't self, need to find first valid target
 	{
 		for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt() && i < tgtArray->size; ++i) {
 			if (tgtArray->creature[i]->isTargetable(m_chosenAttack->getMainTarget())) {
+				// If valid target found, set as target and stop looking
 				m_target = i;
 				break;
 			}
 		}
 	}
+	// Iterate over all possible attack to find best attack
 	for (std::vector<Attack*>::iterator it = m_possibleAttacks->begin(); it != m_possibleAttacks->end(); ++it) {
 		int targetedDamage[Attack::MAX_RANGE + 1];
 		int areaDamage[Attack::MAX_RANGE + 1];
-		float attackMaxDamagePercent = 0.0f;
+		float attackMaxDamagePercent = 0.0f;		// Ratio of damage to creature health
 		size_t target = 0;
 		calculateAttackDamage(*it, targetedDamage, areaDamage);
 		// Set attackMaxDamagePercent to highest damage to health ratio among enemies
 		for (size_t i = 0; i < Attack::MAX_RANGE + 1; ++i) {
+			// Just add together targeted and area damage, as this doesn't care about total damage output
+			// but reducing one creature's health as much as possible
 			float totalDamagePercent = (float)(targetedDamage[i] + areaDamage[i]) / (float)(m_enemies->creature[i]->getHealth());
 			if (totalDamagePercent > attackMaxDamagePercent) {
 				attackMaxDamagePercent = totalDamagePercent;
 			}
 		}
+		// If new best found, set new m_chosenAttack, m_target, and maxDamagePercent
 		if (attackMaxDamagePercent > maxDamagePercent) {
 			maxDamagePercent = attackMaxDamagePercent;
 			m_chosenAttack = *it;

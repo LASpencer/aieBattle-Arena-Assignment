@@ -28,15 +28,17 @@ Attack * MaximizeDamage::selectAttack()
 		tgtArray = m_enemies;
 		break;
 	}
-	if(m_chosenAttack->getMainTarget() != TargetType::SELF)
+	if(m_chosenAttack->getMainTarget() != TargetType::SELF)	// if target isn't self, need to find first valid target
 	{
-	for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt() && i < tgtArray->size; ++i) {
-		if (tgtArray->creature[i]->isTargetable(m_chosenAttack->getMainTarget())) {
-			m_target = i;
-			break;
+		for (size_t i = m_chosenAttack->getMinTgt(); i <= m_chosenAttack->getMaxTgt() && i < tgtArray->size; ++i) {
+			if (tgtArray->creature[i]->isTargetable(m_chosenAttack->getMainTarget())) {	
+				// If valid target found, set as target and stop looking
+				m_target = i;
+				break;
+			}
 		}
 	}
-}
+	// Iterate over all possible attacks to find maximum damage
 	for (std::vector<Attack*>::iterator it = m_possibleAttacks->begin(); it != m_possibleAttacks->end(); ++it) {
 		int targetedDamage[Attack::MAX_RANGE + 1];
 		int areaDamage[Attack::MAX_RANGE + 1];

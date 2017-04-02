@@ -13,6 +13,7 @@ PickRandom::~PickRandom()
 
 Attack * PickRandom::selectAttack()
 {
+	// Pick random attack
 	m_chosenAttack = (*m_possibleAttacks)[rand() % m_possibleAttacks->size()];
 	return m_chosenAttack;
 }
@@ -43,6 +44,7 @@ size_t PickRandom::selectTarget()
 			break;
 		}
 	}
+	// Pick random target index from possibleTargets
 	m_target = possibleTargets[rand() % possibleTargetsArraySize];
 	return m_target;
 }

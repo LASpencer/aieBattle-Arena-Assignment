@@ -52,7 +52,7 @@ void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, Tar
 		targetedValue[i] = 0;
 		areaValue[i] = 0;
 	}
-	// 
+	// Get pointer to relevant team
 	CreatureArray* targetedTeam;
 	switch (targetGroup) {
 	case TargetType::SELF:
@@ -79,7 +79,7 @@ void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, Tar
 			int attackerModValue= it->baseValue;
 			// Modify value by attacker's abilities
 			for (std::map<Ability, float>::iterator modIt = it->abilityOffModifier.begin(); modIt != it->abilityOffModifier.end(); ++modIt) {
-				attackerModValue += (int)(m_creature->getAbility(modIt->first) * modIt->second);
+				attackerModValue += (int)(m_creature->getAbility(modIt->first) * modIt->second);					// Modify value by modifying ability score * modifier coefficient
 			}
 			/*	Calculate multiplier for ongoing effect duration
 				This is calculated with a geometric series, so that effects are considered less valuable the further in the future they occur
@@ -91,7 +91,7 @@ void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, Tar
 					int totalModValue = attackerModValue;
 					// Modify value by defender's abilities
 					for (std::map<Ability, float>::iterator modIt = it->abilityDefModifier.begin(); modIt != it->abilityDefModifier.end(); ++modIt) {
-						totalModValue -= (int)(targetedTeam->creature[i]->getAbility(modIt->first) * modIt->second);
+						totalModValue -= (int)(targetedTeam->creature[i]->getAbility(modIt->first) * modIt->second);		// Modify value by modifying ability score * modifier coefficient
 					}
 					// Make sure modified value is not negative
 					if (totalModValue < 0) {
@@ -100,19 +100,19 @@ void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, Tar
 					//Calculate hitChance based on defender's evasion (if they're enemies)
 					float hitChance;
 					if (targetGroup == TargetType::ENEMY) {
-						int hitPercent = 100 - targetedTeam->creature[i]->getAbility(Ability::EVASION);
+						int hitPercent = 100 - targetedTeam->creature[i]->getAbility(Ability::EVASION);		// Percentage chance of evasion not stopping attack
 						if (hitPercent >= 100) {
-							hitChance = 1.0f;
+							hitChance = 1.0f;						// max value of 1
 						}
 						else if (hitPercent <= 0) {
-							hitChance = 0.0f;
+							hitChance = 0.0f;						// min value of 0
 						}
 						else {
 							hitChance = (float)hitPercent / 100.0f;
 						}
 					}
 					else {
-						hitChance = 1.0f;
+						hitChance = 1.0f;							// Friends and self don't evade attacks
 					}
 					// Multiply value by ongoingEffectMultiplier
 					totalModValue *= ongoingEffectMultiplier;
@@ -130,5 +130,4 @@ void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, Tar
 			}
 		}
 	}
-	//TODO maybe modify damage values by evasion
 }
