@@ -1,10 +1,9 @@
 #include "Creature.h"
 #include "Attack.h"
-#include <iostream> //HACK note all uses, only use this for testing purposes
+#include <iostream>
 #include <cmath>
 #include "AgentAI.h"
-
-#include "Texture.h"	//HACK for testing only
+#include "Texture.h"
 
 Creature::Creature() : m_xSlidePos(0), m_ySlidePos(0), m_health(0),m_xPos(0.0f),m_yPos(0.0f), m_animation(Animation::NONE)
 {
@@ -171,7 +170,6 @@ bool Creature::applyOngoingEffect(std::vector<EffectInfo>::iterator effect, Mess
 
 void Creature::update(float deltaTime)
 {
-	//HACK put magic numbers in constants
 	// Perform current animation
 	switch (m_animation) {
 	case Animation::JUMP:

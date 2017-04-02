@@ -17,7 +17,7 @@ void GameModeStateMachine::change(std::string name, CreatureArray * playerTeam, 
 		m_currentState->exit();
 	}
 	m_currentState = m_states[name];
-	dynamic_cast<GameModeState*>(m_currentState)->init(playerTeam, enemyTeam); //HACK test this carefully
+	dynamic_cast<GameModeState*>(m_currentState)->init(playerTeam, enemyTeam);
 }
 
 void GameModeStateMachine::add(std::string name, State * state)

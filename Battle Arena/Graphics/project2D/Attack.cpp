@@ -1,7 +1,7 @@
 #include "Attack.h"
 #include "Creature.h"
 #include "MessageBar.h"
-#include <iostream> //HACK note all uses, only use this for testing purposes
+#include <iostream>
 
 Attack::Attack()
 {
@@ -30,7 +30,7 @@ void Attack::setAttackData(AttackData data, std::map<int, Effect> &effectMap)
 	m_description = data.description;
 	m_minPos = data.minPos;			
 	m_maxPos = data.maxPos;
-	m_minTgt = 0;					// HACK figure out if I should base on AttackData
+	m_minTgt = 0;
 	m_maxTgt = MAX_RANGE;
 	m_cooldown = data.cooldown;
 	m_mainTarget = data.mainTarget;
@@ -123,7 +123,7 @@ std::vector<Effect>::iterator Attack::useAttack(Creature * user, MessageBar* mes
 
 	// Copy attack description to message bar
 	std::string attackMessage = user->getName() + m_description;
-	std::cout << attackMessage << std::endl;				//HACK message sent to console for debugging
+	std::cout << attackMessage << std::endl;				//HACK message sent to console for debugging purposes
 	message->setMessage(attackMessage);
 	// Start user animation
 	user->startAnimation(m_Animation);

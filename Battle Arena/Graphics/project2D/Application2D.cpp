@@ -34,11 +34,9 @@ bool Application2D::startup() {
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 
 	srand((unsigned int)time(NULL));
-
+	// Set up effect map
 	m_effectMap = new std::map<int, Effect>();
-	//{key,{useDescription,{activateDescription,type,duration,value,ability,animation},baseValue,minTgt,maxTgt,areaEffect,target,{abilityOffModifier},{abilityDefModifier}
-
-	//TODO extract out raw data into another file
+	//{key,{useDescription,{activateDescription,type,duration,value,ability,animation},baseValue,minTgt,maxTgt,areaEffect,target,{abilityOffModifier...},{abilityDefModifier...}
 	*m_effectMap = {
 				{1,{"Their blade swings down",{ " was injured by the blow",EffectType::DAMAGE,0,10,Ability::HEALTH,Animation::SHAKE},10,0,0,false,TargetType::ENEMY, { {Ability::STRENGTH, 1.0f} }, {{Ability::TOUGHNESS,1.0f} } }},
 				{2,{"It strikes its target",{" was hit by the arrow", EffectType::DAMAGE,0,5,Ability::HEALTH, Animation::SHAKE},5,0,3,false, TargetType::ENEMY,{{Ability::ACCURACY,1.0f}},{{Ability::TOUGHNESS,1.0f}} }},
@@ -54,10 +52,11 @@ bool Application2D::startup() {
 				{12,{"Rays of energy blast the target",{" was hit by the rays", EffectType::DAMAGE,0,5,Ability::HEALTH,Animation::SHAKE},5,0,3,false, TargetType::ENEMY,{{Ability::MYSTIC,1.0f}},{{Ability::TOUGHNESS,0.5f},{Ability::MAGIC_RESIST,1.0f}} }},
 				{13,{"The party was inspired!",{" feels inspired", EffectType::BUFF,1,2,Ability::STRENGTH,Animation::BOUNCE},2,0,1,true, TargetType::FRIEND,{},{}}},
 				{14,{"The powers of evil are driven off",{" was protected from evil magic", EffectType::BUFF,1,2,Ability::MAGIC_RESIST,Animation::HOVER},2,0,3,true,TargetType::FRIEND,{{Ability::HOLY, 1.0f}},{} }}
-			};
+	};
 		
+	// Set up attack map
 	m_attackMap = new std::map<int, Attack>();
-
+	// {key,{name, description, minPos, maxPos, minTgt, masTgt, cooldown, mainTarget, {effectID...}, animation}
 	*m_attackMap = {
 				{1,Attack({ "Strike", " strikes with their blade", 0,0,0,0,0,TargetType::ENEMY,{ 1 },Animation::JUMP }, *m_effectMap) },
 				{2, Attack({ "Shoot", " looses an arrow",1,3,0,3,0,TargetType::ENEMY,{ 2 },Animation::JUMP },  *m_effectMap)},
@@ -74,149 +73,151 @@ bool Application2D::startup() {
 				{13,Attack({"Poison Bite", " bites their opponent",0,0,0,0,0,TargetType::ENEMY,{10,7},Animation::JUMP},*m_effectMap)},
 				{14,Attack({"Magic Blast", " casts an attack spell",1,3,0,3,0,TargetType::ENEMY,{12},Animation::JUMP},*m_effectMap)},
 				{15,Attack({"Battlecry"," shouts words of encouragement",0,3,0,1,0, TargetType::FRIEND,{13},Animation::BOUNCE}, *m_effectMap)},
-				{16,Attack({"Evil Eye"," locks eyes with their enemy",0,3,0,3,2,TargetType::ENEMY,{12,12,12,12},Animation::HOVER}, *m_effectMap)},//TODO test repeatedly using same effect works
+				{16,Attack({"Evil Eye"," locks eyes with their enemy",0,3,0,3,2,TargetType::ENEMY,{12,12,12,12},Animation::HOVER}, *m_effectMap)},
 				{17,Attack({"Holy Ward"," chants a protective spell",2,3,0,3,0,TargetType::FRIEND,{14},Animation::HOVER}, *m_effectMap)},
 				{18,Attack({"Bite", " bites its opponent",0,0,0,0,0,TargetType::ENEMY,{10},Animation::JUMP}, *m_effectMap)}
 	};
 
-		
-			std::map<Ability, int>SwordsmanAbility = {	//TODO move these to other file
-				{Ability::STRENGTH, 2},
-				{Ability::ACCURACY,0},
-				{Ability::MYSTIC,0},
-				{Ability::HOLY,0},
-				{Ability::TOUGHNESS,1},
-				{Ability::MAGIC_RESIST,0},
-				{Ability::EVASION,0},
-				{Ability::HEALTH,100}
-			};
+	// Set up creature ability scores
+	std::map<Ability, int>SwordsmanAbility = {
+		{Ability::STRENGTH, 2},
+		{Ability::ACCURACY,0},
+		{Ability::MYSTIC,0},
+		{Ability::HOLY,0},
+		{Ability::TOUGHNESS,1},
+		{Ability::MAGIC_RESIST,0},
+		{Ability::EVASION,0},
+		{Ability::HEALTH,100}
+	};
 
-			std::map<Ability, int>AssassinAbility = {
-				{ Ability::STRENGTH, 0 },
-				{ Ability::ACCURACY,2 },
-				{ Ability::MYSTIC,0 },
-				{ Ability::HOLY,0 },
-				{ Ability::TOUGHNESS,0 },
-				{ Ability::MAGIC_RESIST,0 },
-				{ Ability::EVASION,25 },
-				{ Ability::HEALTH,70 }
-			};
+	std::map<Ability, int>AssassinAbility = {
+		{ Ability::STRENGTH, 0 },
+		{ Ability::ACCURACY,2 },
+		{ Ability::MYSTIC,0 },
+		{ Ability::HOLY,0 },
+		{ Ability::TOUGHNESS,0 },
+		{ Ability::MAGIC_RESIST,0 },
+		{ Ability::EVASION,25 },
+		{ Ability::HEALTH,70 }
+	};
 			
-			std::map<Ability, int>MendicantAbility = {
-				{ Ability::STRENGTH, 0 },
-				{ Ability::ACCURACY,0 },
-				{ Ability::MYSTIC,0 },
-				{ Ability::HOLY,2 },
-				{ Ability::TOUGHNESS,1 },
-				{ Ability::MAGIC_RESIST,0 },
-				{ Ability::EVASION,0 },
-				{ Ability::HEALTH,50 }
-			};
+	std::map<Ability, int>MendicantAbility = {
+		{ Ability::STRENGTH, 0 },
+		{ Ability::ACCURACY,0 },
+		{ Ability::MYSTIC,0 },
+		{ Ability::HOLY,2 },
+		{ Ability::TOUGHNESS,1 },
+		{ Ability::MAGIC_RESIST,0 },
+		{ Ability::EVASION,0 },
+		{ Ability::HEALTH,50 }
+	};
 
-			std::map<Ability, int>WitchAbility = {
-				{ Ability::STRENGTH, 0 },
-				{ Ability::ACCURACY,0 },
-				{ Ability::MYSTIC,2 },
-				{ Ability::HOLY,0 },
-				{ Ability::TOUGHNESS,0 },
-				{ Ability::MAGIC_RESIST,1 },
-				{ Ability::EVASION,0 },
-				{ Ability::HEALTH,50 }
-			};
+	std::map<Ability, int>WitchAbility = {
+		{ Ability::STRENGTH, 0 },
+		{ Ability::ACCURACY,0 },
+		{ Ability::MYSTIC,2 },
+		{ Ability::HOLY,0 },
+		{ Ability::TOUGHNESS,0 },
+		{ Ability::MAGIC_RESIST,1 },
+		{ Ability::EVASION,0 },
+		{ Ability::HEALTH,50 }
+	};
 
-			std::map<Ability, int>GoblinAbility = {
-				{ Ability::STRENGTH, 0 },
-				{ Ability::ACCURACY,1 },
-				{ Ability::MYSTIC,0 },
-				{ Ability::HOLY,0 },
-				{ Ability::TOUGHNESS,0 },
-				{ Ability::MAGIC_RESIST,0 },
-				{ Ability::EVASION,0 },
-				{ Ability::HEALTH,50 }
-			};
+	std::map<Ability, int>GoblinAbility = {
+		{ Ability::STRENGTH, 0 },
+		{ Ability::ACCURACY,1 },
+		{ Ability::MYSTIC,0 },
+		{ Ability::HOLY,0 },
+		{ Ability::TOUGHNESS,0 },
+		{ Ability::MAGIC_RESIST,0 },
+		{ Ability::EVASION,0 },
+		{ Ability::HEALTH,50 }
+	};
 
-			std::map<Ability, int>ZombieAbility = {
-				{ Ability::STRENGTH, 2 },
-				{ Ability::ACCURACY,0 },
-				{ Ability::MYSTIC,0 },
-				{ Ability::HOLY,0 },
-				{ Ability::TOUGHNESS,2 },
-				{ Ability::MAGIC_RESIST,0 },
-				{ Ability::EVASION,0 },
-				{ Ability::HEALTH,80 }
-			};
+	std::map<Ability, int>ZombieAbility = {
+		{ Ability::STRENGTH, 2 },
+		{ Ability::ACCURACY,0 },
+		{ Ability::MYSTIC,0 },
+		{ Ability::HOLY,0 },
+		{ Ability::TOUGHNESS,2 },
+		{ Ability::MAGIC_RESIST,0 },
+		{ Ability::EVASION,0 },
+		{ Ability::HEALTH,80 }
+	};
 
-			std::map<Ability, int>MedusaAbility = {
-				{ Ability::STRENGTH, 2 },
-				{ Ability::ACCURACY,0 },
-				{ Ability::MYSTIC,2 },
-				{ Ability::HOLY,0 },
-				{ Ability::TOUGHNESS,1 },
-				{ Ability::MAGIC_RESIST,1 },
-				{ Ability::EVASION,0 },
-				{ Ability::HEALTH,100 }
-			};
+	std::map<Ability, int>MedusaAbility = {
+		{ Ability::STRENGTH, 2 },
+		{ Ability::ACCURACY,0 },
+		{ Ability::MYSTIC,2 },
+		{ Ability::HOLY,0 },
+		{ Ability::TOUGHNESS,1 },
+		{ Ability::MAGIC_RESIST,1 },
+		{ Ability::EVASION,0 },
+		{ Ability::HEALTH,100 }
+	};
 
-			std::map<Ability, int>ImpAbility = {
-				{ Ability::STRENGTH, -1 },
-				{ Ability::ACCURACY,0 },
-				{ Ability::MYSTIC,1 },
-				{ Ability::HOLY,0 },
-				{ Ability::TOUGHNESS,-1 },
-				{ Ability::MAGIC_RESIST,2 },
-				{ Ability::EVASION,60 },
-				{ Ability::HEALTH,20 }
-			};
+	std::map<Ability, int>ImpAbility = {
+		{ Ability::STRENGTH, -1 },
+		{ Ability::ACCURACY,0 },
+		{ Ability::MYSTIC,1 },
+		{ Ability::HOLY,0 },
+		{ Ability::TOUGHNESS,-1 },
+		{ Ability::MAGIC_RESIST,2 },
+		{ Ability::EVASION,60 },
+		{ Ability::HEALTH,20 }
+	};
+				
+	// Set up teams
+	m_playerTeam = new CreatureArray();
+	m_playerTeam->creature = new Creature*[4];
+	m_playerTeam->size = 0;
+	m_enemyTeam = new CreatureArray();
+	m_enemyTeam->creature = new Creature*[4];
+	m_enemyTeam->size = 0;
 
-			//TODO medusa abilities (poison bite, gaze attack
+	// Load creature textures
+	m_sword = new aie::Texture("./textures/Swordsman.png");
+	m_assassin = new aie::Texture("./textures/Assassin.png");
+	m_monk = new aie::Texture("./textures/Mendicant.png");
+	m_witch = new aie::Texture("./textures/Witch.png");
+	m_goblin = new aie::Texture("./textures/Goblin.png");
+	m_zombie = new aie::Texture("./textures/Zombie.png");
+	m_imp = new aie::Texture("./textures/Imp.png");
+	m_medusa = new aie::Texture("./textures/Medusa.png");
+	m_dead = new aie::Texture("./textures/Grave.png");
+	m_targetArrow = new aie::Texture("./textures/Arrow.png");
 
-				m_playerTeam = new CreatureArray();
-				m_playerTeam->creature = new Creature*[4];
-				m_playerTeam->size = 0;
-				m_enemyTeam = new CreatureArray();
-				m_enemyTeam->creature = new Creature*[4];
-				m_enemyTeam->size = 0;
+	// Add creatures to teams
+	m_playerTeam->creature[0] = new Creature("Swordsman", m_sword, m_dead, SwordsmanAbility, { 1,3,6,15 }, *m_attackMap); 
+	m_playerTeam->creature[1] = new Creature("Assassin", m_assassin, m_dead, AssassinAbility, { 7,2,8 }, *m_attackMap);
+	m_playerTeam->creature[2] = new Creature("Mendicant", m_monk, m_dead, MendicantAbility, { 1,5,9,17 }, *m_attackMap);
+	m_playerTeam->creature[3] = new Creature("Witch", m_witch, m_dead, WitchAbility, {14,4,10 }, *m_attackMap);
+	m_playerTeam->size = 4;
+	m_enemyTeam->creature[0] = new Creature("Medusa", m_medusa, m_dead, MedusaAbility, { 13,16,10 }, *m_attackMap);
+	m_enemyTeam->creature[1] = new Creature("Zombie", m_zombie, m_dead, ZombieAbility, { 11,12 }, *m_attackMap);
+	m_enemyTeam->creature[2] = new Creature("Goblin", m_goblin, m_dead, GoblinAbility, { 1,2,3 }, *m_attackMap);
+	m_enemyTeam->creature[3] = new Creature("Imp", m_imp, m_dead, ImpAbility, { 18,4,10 }, *m_attackMap);	
+	m_enemyTeam->size = 4;
 
-				m_sword = new aie::Texture("./textures/Swordsman.png");
-				m_assassin = new aie::Texture("./textures/Assassin.png");
-				m_monk = new aie::Texture("./textures/Mendicant.png");
-				m_witch = new aie::Texture("./textures/Witch.png");
-				m_goblin = new aie::Texture("./textures/Goblin.png");
-				m_zombie = new aie::Texture("./textures/Zombie.png");
-				m_imp = new aie::Texture("./textures/Imp.png");
-				m_medusa = new aie::Texture("./textures/Medusa.png");
-				m_dead = new aie::Texture("./textures/Grave.png");
-				m_targetArrow = new aie::Texture("./textures/Arrow.png");
-
-
-				//HACK creatures should be initialized elsewhere
-				m_playerTeam->creature[0] = new Creature("Swordsman", m_sword, m_dead, SwordsmanAbility, { 1,3,6,15 }, *m_attackMap); 
-				m_playerTeam->creature[1] = new Creature("Assassin", m_assassin, m_dead, AssassinAbility, { 7,2,8 }, *m_attackMap);
-				m_playerTeam->creature[2] = new Creature("Mendicant", m_monk, m_dead, MendicantAbility, { 1,5,9,17 }, *m_attackMap);
-				m_playerTeam->creature[3] = new Creature("Witch", m_witch, m_dead, WitchAbility, {14,4,10 }, *m_attackMap);
-				m_playerTeam->size = 4;
-				m_enemyTeam->creature[0] = new Creature("Medusa", m_medusa, m_dead, MedusaAbility, { 13,16,10 }, *m_attackMap);
-				m_enemyTeam->creature[1] = new Creature("Zombie", m_zombie, m_dead, ZombieAbility, { 11,12 }, *m_attackMap);
-				m_enemyTeam->creature[2] = new Creature("Goblin", m_goblin, m_dead, GoblinAbility, { 1,2,3 }, *m_attackMap);
-				m_enemyTeam->creature[3] = new Creature("Imp", m_imp, m_dead, ImpAbility, { 18,4,10 }, *m_attackMap);	
-				m_enemyTeam->size = 4;
-
-				m_playerTeam->creature[0]->setAgent(new AgentHuman(m_targetArrow));
-				m_playerTeam->creature[1]->setAgent(new AgentHuman(m_targetArrow));
-				m_playerTeam->creature[2]->setAgent(new AgentHuman(m_targetArrow));
-				m_playerTeam->creature[3]->setAgent(new AgentHuman(m_targetArrow));
-				m_enemyTeam->creature[0]->setAgent(new AgentAI(new MaximizeDamagePercent()));
-				m_enemyTeam->creature[1]->setAgent(new AgentAI(new PickFirstOption()));
-				m_enemyTeam->creature[2]->setAgent(new AgentAI(new MaximizeDamage()));
-				m_enemyTeam->creature[3]->setAgent(new AgentAI(new MaximizeDamage()));
+	// Set creature agents
+	m_playerTeam->creature[0]->setAgent(new AgentHuman(m_targetArrow));
+	m_playerTeam->creature[1]->setAgent(new AgentHuman(m_targetArrow));
+	m_playerTeam->creature[2]->setAgent(new AgentHuman(m_targetArrow));
+	m_playerTeam->creature[3]->setAgent(new AgentHuman(m_targetArrow));
+	m_enemyTeam->creature[0]->setAgent(new AgentAI(new MaximizeDamagePercent()));	// Medusa tries to kill weakest enemy with her ranged attacks
+	m_enemyTeam->creature[1]->setAgent(new AgentAI(new PickFirstOption()));			// Zombie can only either bite, or do nothing
+	m_enemyTeam->creature[2]->setAgent(new AgentAI(new MaximizeDamage()));			// Goblin tries to do as much damage as possible
+	m_enemyTeam->creature[3]->setAgent(new AgentAI(new MaximizeDamage()));			// Imp tries to do as much damage as possible
 
 
+	// Set up state machine
 	m_modeStateMachine = new GameModeStateMachine;
 	m_modeStateMachine->add("MainMenu", new MainMenu(this));
 	m_modeStateMachine->add("Battle", new Battle(this));
 	m_modeStateMachine->add("GameOver", new GameOver(this));
 	m_modeStateMachine->add("VictoryScreen", new VictoryScreen(this));
 
+	// Start at main menu
 	m_modeStateMachine->change("MainMenu", m_playerTeam, m_enemyTeam);
 
 	m_cameraX = 0;
@@ -228,7 +229,7 @@ bool Application2D::startup() {
 
 void Application2D::shutdown() {
 	
-	delete m_modeStateMachine; //TODO test this actually deletes everything
+	delete m_modeStateMachine;
 	delete m_sword;
 	delete m_assassin;
 	delete m_monk;
@@ -247,8 +248,6 @@ void Application2D::shutdown() {
 	delete m_effectMap;
 	delete m_font;
 	delete m_2dRenderer;
-	
-	
 }
 
 void Application2D::update(float deltaTime) {

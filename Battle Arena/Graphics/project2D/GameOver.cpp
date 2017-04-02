@@ -1,7 +1,6 @@
 #include "GameOver.h"
 #include "MessageBar.h"
 
-//TODO actual Game OVer screen
 
 GameOver::GameOver()
 {

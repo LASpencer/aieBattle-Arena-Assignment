@@ -4,7 +4,6 @@
 #include "GameModeStateMachine.h"
 #include "Application2D.h"
 
-// TODO actual menu, let the user pick their heroes, other options, then play
 
 MainMenu::MainMenu()
 {

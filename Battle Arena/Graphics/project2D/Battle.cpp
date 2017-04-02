@@ -357,7 +357,7 @@ void Battle::SortTeams::draw(aie::Renderer2D &renderer)
 void Battle::SortTeams::SortCreatureArray(CreatureArray * team)
 {
 	for (size_t i = 1; i < team->size; ++i) {
-		Creature* temp = team->creature[i]; //HACK need proper copy constructor
+		Creature* temp = team->creature[i];
 		size_t j = i;
 		while (j > 0 && temp->getHealth() > team->creature[j - 1]->getHealth()) {
 			team->creature[j] = team->creature[j - 1];

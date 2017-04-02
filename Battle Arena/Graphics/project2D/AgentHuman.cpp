@@ -4,7 +4,6 @@
 #include "Creature.h"
 #include "Battle.h"
 
-// TODO figure out best position
 const float AgentHuman::ATTACK_MENU_XPOS = 500;
 const float AgentHuman::ATTACK_MENU_YPOS = 197;
 
