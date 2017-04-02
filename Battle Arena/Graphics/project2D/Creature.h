@@ -64,7 +64,7 @@ public:
 	// Returns true if creature has positive health
 	bool isAlive();
 	// Returns true if creature can be targeted
-	bool isTargetable(TargetType effectType);
+	bool isTargetable(TargetType targetType);
 	int getHealth();
 	// Returns modified value of ability
 	int getAbility(Ability ability);
@@ -102,7 +102,9 @@ public:
 	// Sets start position for slide animation
 	void setSlidePos(float xPos, float yPos);
 
+	// Makes all start of turn changes for creature
 	void startTurn();
+	// Makes all end of turn changes to creature
 	void endTurn();
 	// Set cooldown timer on attack passed to attack's cooldown value
 	void setAttackCD(Attack* attack);

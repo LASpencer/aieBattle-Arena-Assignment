@@ -14,10 +14,18 @@ public:
 	MessageBar(std::string message, float xPos = 0, float yPos = 0, unsigned int boxColour = BOX_COLOUR, unsigned int  textColour = TEXT_COLOUR);
 	~MessageBar();
 
+	// Set position of MessageBar's centre
 	void setPosition(float xPos, float yPos);
+	// Set message to display in MessageBar
 	void setMessage(std::string message);
 	void setMessage(const char* message);
+	/* Set colour of message bar
+	boxColour = colour RGBA value as 4 byte integer
+	*/
 	void setBoxColour(unsigned int boxColour);
+	/*Set colour of message text
+	textColour = colour RGBA value as 4 byte integer
+	*/
 	void setTextColour(unsigned int textColour);
 
 	void draw(aie::Renderer2D &renderer);
