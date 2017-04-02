@@ -2,6 +2,7 @@
 #include "Creature.h"
 #include "Attack.h"
 
+const float Behaviour::EFFECT_TIME_DISCOUNT = 0.9f;
 
 Behaviour::Behaviour()
 {
@@ -39,6 +40,7 @@ void Behaviour::setPossibleAttacks(std::vector<Attack*>* possibleAttacks)
 
 void Behaviour::calculateAttackDamage(Attack * attack, int targetedDamage[], int areaDamage[])
 {
+	// Call calculateAttackValue for damage to enemies
 	calculateAttackValue(attack, EffectType::DAMAGE, TargetType::ENEMY,Ability::HEALTH, targetedDamage, areaDamage);
 }
 
@@ -56,7 +58,7 @@ void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, Tar
 		switch (targetGroup) {
 		case TargetType::SELF:
 		case TargetType::FRIEND:
-			suitableTarget = (it->target == TargetType::SELF || it->target == TargetType::FRIEND);
+			suitableTarget = (it->target == TargetType::SELF || it->target == TargetType::FRIEND);		//SELF is part of FRIEND team, so effects for both must be checked
 			break;
 		case TargetType::ENEMY:
 			suitableTarget = (it->target == TargetType::ENEMY);
@@ -68,7 +70,10 @@ void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, Tar
 			for (std::map<Ability, float>::iterator modIt = it->abilityOffModifier.begin(); modIt != it->abilityOffModifier.end(); ++modIt) {
 				attackerModValue += (int)(m_creature->getAbility(modIt->first) * modIt->second);
 			}
-			// TODO modify damage based on effect duration (geometric progression time discount?)
+			/*	Calculate multiplier for ongoing effect duration
+				This is calculated with a geometric series, so that effects are considered less valuable the further in the future they occur
+			*/
+			float ongoingEffectMultiplier = (1.0f - powf(EFFECT_TIME_DISCOUNT, (it->info.duration + 1))) / (1.0f - EFFECT_TIME_DISCOUNT);
 			// Iterate over targetGroup
 			for (int i = 0; i < Attack::MAX_RANGE + 1; ++i) {
 				if (it->target != TargetType::SELF || i == m_position) {	//If effect targets other creatures, or checking own position
@@ -81,6 +86,8 @@ void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, Tar
 					if (totalModValue < 0) {
 						totalModValue = 0;
 					}
+					// Multiply value by ongoingEffectMultiplier
+					totalModValue *= ongoingEffectMultiplier;
 					if (it->areaEffect) {
 						// If area effect, add to areaDamage array
 						areaValue[i] += totalModValue;
