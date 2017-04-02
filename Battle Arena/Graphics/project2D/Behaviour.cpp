@@ -52,6 +52,17 @@ void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, Tar
 		targetedValue[i] = 0;
 		areaValue[i] = 0;
 	}
+	// 
+	CreatureArray* targetedTeam;
+	switch (targetGroup) {
+	case TargetType::SELF:
+	case TargetType::FRIEND:
+		targetedTeam = m_friends;
+		break;
+	case TargetType::ENEMY:
+		targetedTeam = m_enemies;
+		break;
+	}
 	//Iterate over each effect in attack
 	for (std::vector<Effect>::iterator it = effects->begin(); it != effects->end(); ++it) {
 		bool suitableTarget = false;
@@ -75,19 +86,38 @@ void Behaviour::calculateAttackValue(Attack * attack, EffectType effectType, Tar
 			*/
 			float ongoingEffectMultiplier = (1.0f - powf(EFFECT_TIME_DISCOUNT, (it->info.duration + 1))) / (1.0f - EFFECT_TIME_DISCOUNT);
 			// Iterate over targetGroup
-			for (int i = 0; i < Attack::MAX_RANGE + 1; ++i) {
+			for (int i = it->minTgt; i <= it->maxTgt && i<targetedTeam->size; ++i) {
 				if (it->target != TargetType::SELF || i == m_position) {	//If effect targets other creatures, or checking own position
 					int totalModValue = attackerModValue;
 					// Modify value by defender's abilities
-					for (std::map<Ability, float>::iterator modIt = it->abilityOffModifier.begin(); modIt != it->abilityOffModifier.end(); ++modIt) {
-						totalModValue += (int)(m_enemies->creature[i]->getAbility(modIt->first) * modIt->second);
+					for (std::map<Ability, float>::iterator modIt = it->abilityDefModifier.begin(); modIt != it->abilityDefModifier.end(); ++modIt) {
+						totalModValue -= (int)(targetedTeam->creature[i]->getAbility(modIt->first) * modIt->second);
 					}
 					// Make sure modified value is not negative
 					if (totalModValue < 0) {
 						totalModValue = 0;
 					}
+					//Calculate hitChance based on defender's evasion (if they're enemies)
+					float hitChance;
+					if (targetGroup == TargetType::ENEMY) {
+						int hitPercent = 100 - targetedTeam->creature[i]->getAbility(Ability::EVASION);
+						if (hitPercent >= 100) {
+							hitChance = 1.0f;
+						}
+						else if (hitPercent <= 0) {
+							hitChance = 0.0f;
+						}
+						else {
+							hitChance = (float)hitPercent / 100.0f;
+						}
+					}
+					else {
+						hitChance = 1.0f;
+					}
 					// Multiply value by ongoingEffectMultiplier
 					totalModValue *= ongoingEffectMultiplier;
+					// Multiply value by hitChance
+					totalModValue *= hitChance;
 					if (it->areaEffect) {
 						// If area effect, add to areaDamage array
 						areaValue[i] += totalModValue;
