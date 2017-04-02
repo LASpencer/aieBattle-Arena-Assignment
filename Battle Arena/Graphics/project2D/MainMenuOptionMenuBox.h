@@ -3,6 +3,9 @@
 
 class MainMenuOption;
 
+/*MainMenuOptionMenuBox class
+MenuBox for making choices on the main menu
+*/
 class MainMenuOptionMenuBox :
 	public MenuBox
 {
@@ -17,6 +20,7 @@ public:
 
 	void setContents(std::vector<MainMenuOption> &contents);
 
+	// Return MainMenuOption currently selected by user
 	MainMenuOption getCurrent();
 
 private:

@@ -3,6 +3,10 @@
 #include "AttackMenuBox.h"
 #include <vector>
 
+/*AgentHuman class
+
+Gets user to select a creature's attack and target
+*/
 class AgentHuman :
 	public Agent
 {

@@ -5,7 +5,7 @@ class MessageBar;
 /*
 GameOver state
 Display game over message after player loses the game
-Final state
+Final state, waits for player to hit escape end end program
 */
 class GameOver :
 	public GameModeState

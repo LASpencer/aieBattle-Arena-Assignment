@@ -137,7 +137,8 @@ std::vector<Effect>::iterator Attack::useAttack(Creature * user, MessageBar* mes
 bool Attack::applyEffect(std::vector<Effect>::iterator effect, Creature * user, size_t target, CreatureArray * friends, CreatureArray * enemies, bool dodgeArray[], MessageBar* message)
 {
 	if (effect != m_effects.end()) {
-		std::cout << effect->useDescription << std::endl;			//HACK message sent to console for debugging
+		// If effect is in m_effects, apply it to targeted creatures
+		std::cout << effect->useDescription << std::endl;			//HACK message sent to console for debugging purposes
 		CreatureArray* targetGroup;		// Team affected by effect
 		switch (effect->target) {		// Set targetGroup based on effect's target type
 		case TargetType::SELF:
@@ -205,6 +206,7 @@ bool Attack::applyEffect(std::vector<Effect>::iterator effect, Creature * user, 
 		return true;
 	}
 	else {
+		// If effect is at end of m_effects, return false
 		return false;
 	}
 }

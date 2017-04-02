@@ -3,6 +3,9 @@
 
 class Attack;
 
+/*AttackMenuBox class
+MenuBox where each option is a pointer to an attack
+*/
 class AttackMenuBox :
 	public MenuBox
 {
@@ -17,6 +20,7 @@ public:
 
 	void setContents(std::vector<Attack*> &contents);
 
+	// Get attack currently selected by user
 	Attack* getCurrent();
 
 private:

@@ -48,17 +48,22 @@ void AttackMenuBox::draw(aie::Renderer2D & renderer)
 		size_t arraySize = 0;
 		float maxWidth = 0;
 		for (contentIterator it = m_contents.begin(); it != m_contents.end(); ++it) {
+			// Get attack's name
 			std::string name = (*it)->getName();
+			// Allocate memory for attack's name
 			options[arraySize].name = new char[name.length() + 1];
 			options[arraySize].length = name.length();
+			// Copy attack's name into OptionInfo
 			name.copy(options[arraySize].name, options[arraySize].length, 0);
-			options[arraySize].name[options[arraySize].length] = 0;
+			options[arraySize].name[options[arraySize].length] = 0;			// Add terminating 0 to end of string
+			// Check if this is currently selected attack
 			if (it == m_current) {
 				options[arraySize].chosen = true;
 			}
 			else {
 				options[arraySize].chosen = false;
 			}
+			// Check if this is new widest text in box
 			float width = renderer.measureTextWidth(&m_font, options[arraySize].name);
 			if (width > maxWidth) {
 				maxWidth = width;
@@ -67,8 +72,8 @@ void AttackMenuBox::draw(aie::Renderer2D & renderer)
 		}
 		// Draw box
 		renderer.setRenderColour(m_boxColour);
-		renderer.drawBox((m_xPos + MARGIN + maxWidth / 2), m_yPos - (float)((LINE_HEIGHT / 2)*(arraySize)), maxWidth + (2 * MARGIN), (float)arraySize * LINE_HEIGHT); //HACK fix type conversion
-																																							   // Draw text (if current, use selectColour for text)
+		renderer.drawBox((m_xPos + MARGIN + maxWidth / 2), m_yPos - (float)((LINE_HEIGHT / 2)*(arraySize)), maxWidth + (2 * MARGIN), (float)arraySize * LINE_HEIGHT);
+		// Draw text (if current, use selectColour for text)
 		for (size_t i = 0; i < arraySize; ++i) {
 			//set colour
 			if (options[i].chosen) {
@@ -78,8 +83,8 @@ void AttackMenuBox::draw(aie::Renderer2D & renderer)
 				renderer.setRenderColour(m_textColour);
 			}
 			// Draw the text
-			renderer.drawText(&m_font, options[i].name, (m_xPos + MARGIN), (m_yPos - (LINE_HEIGHT / 2 + TEXT_OFFSET + (LINE_HEIGHT * i)))); //HACK fix type conversion
-																																			// Delete text after writing
+			renderer.drawText(&m_font, options[i].name, (m_xPos + MARGIN), (m_yPos - (LINE_HEIGHT / 2 + TEXT_OFFSET + (LINE_HEIGHT * i)))); 
+			// Deallocate string memory after writing
 			delete[] options[i].name;
 		}
 		// Delete array

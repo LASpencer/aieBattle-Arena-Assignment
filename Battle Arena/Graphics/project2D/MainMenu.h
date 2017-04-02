@@ -39,6 +39,9 @@ protected:
 	MainMenuOptionMenuBox* m_mainMenuBox;
 };
 
+/*MainMenuOption class
+Used for options in menubox. Contains a member of the Option enumeration.
+*/
 class MainMenuOption {
 public:
 	MainMenuOption() :m_name(""), m_option(MainMenu::Option::NONE)

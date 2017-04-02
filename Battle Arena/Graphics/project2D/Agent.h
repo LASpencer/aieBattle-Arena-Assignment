@@ -6,6 +6,10 @@ class Creature;
 struct CreatureArray;
 class Attack;
 
+/*Agent class
+
+Class to control a creature's attacks and targets
+*/
 class Agent
 {
 public:

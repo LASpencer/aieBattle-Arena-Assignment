@@ -210,8 +210,8 @@ private:
 	CreatureArray* m_enemyTeam;
 	CreatureArray* m_activeTeam;
 	CreatureArray* m_passiveTeam;
-	size_t m_turnPosition;
-	size_t m_activeCreaturePosition;
+	size_t m_turnPosition;						// Position of next creature to take turn, used in state machine loop to iterate over creatures
+	size_t m_activeCreaturePosition;			// Index of creature currently taking turn
 	Attack* m_attack;
 	size_t m_target;
 	MessageBar m_message;

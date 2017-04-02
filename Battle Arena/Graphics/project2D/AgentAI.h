@@ -3,6 +3,10 @@
 
 class Behaviour;
 
+/*AgentAI class
+
+Selects creature's attack and target based on set Behaviour
+*/
 class AgentAI :
 	public Agent
 {

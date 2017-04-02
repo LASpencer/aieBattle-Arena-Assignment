@@ -10,7 +10,7 @@ GameOver::GameOver()
 GameOver::GameOver(Application2D * application)
 {
 	m_application = application;
-	m_gameOverMsg = new MessageBar("Game Over", 640, 650);
+	m_gameOverMsg = new MessageBar("Game Over. Press Esc to quit", 640, 650);
 }
 
 

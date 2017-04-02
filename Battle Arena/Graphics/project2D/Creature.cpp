@@ -29,7 +29,6 @@ Creature::~Creature()
 
 void Creature::initialize(std::string name, aie::Texture* sprite, aie::Texture* dead, std::map<Ability, int>& baseAbilities, std::vector<int> attackID, std::map<int, Attack>& attackMap)
 {
-	//TODO convert as much as possible to initializaiton list
 	m_name = name;
 	m_sprite = sprite;
 	m_dead = dead;

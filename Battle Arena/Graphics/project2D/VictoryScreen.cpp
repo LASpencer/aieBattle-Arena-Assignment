@@ -1,7 +1,6 @@
 #include "VictoryScreen.h"
 #include "MessageBar.h"
 
-//TODO actual victory screen
 
 VictoryScreen::VictoryScreen()
 {
@@ -10,7 +9,7 @@ VictoryScreen::VictoryScreen()
 VictoryScreen::VictoryScreen(Application2D * application)
 {
 	m_application = application;
-	m_winMessage = new MessageBar("Victory!", 640.0f, 650.0f);
+	m_winMessage = new MessageBar("Victory! Press Esc to quit", 640.0f, 650.0f);
 }
 
 

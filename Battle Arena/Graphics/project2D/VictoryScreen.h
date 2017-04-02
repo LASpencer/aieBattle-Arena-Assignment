@@ -5,7 +5,7 @@ class MessageBar;
 /*
 VictoryScreen state
 Display victory message after player wins the game
-Final state
+Final state, waits for player to hit Esc and end program
 */
 class VictoryScreen :
 	 public GameModeState
