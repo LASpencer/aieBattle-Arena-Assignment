@@ -7,6 +7,8 @@ team winning.
 I. Use
 -------
 
+Run the BattleArena.exe file in the Build folder
+
 This program uses the following keyboard controls
 UP/DOWN		: Select through menu options
 LEFT/RIGHT	: Select target creatures in battle
@@ -42,7 +44,6 @@ Sections:
 4. Creature
 5. Agent
 6. Battle
-7. MessageBar and MenuBox
 
 1. State Machines
 
@@ -106,5 +107,5 @@ classes are derived from it: AgentAI which uses the methods of a Behaviour objec
 AgentHuman, which asks the player to choose their attack and target.
 
 6. Battle
-
-7. MessageBar and MenuBox
+The Battle state contains a state machine. See the Battle Substate Statechart Diagram in the Docs folder for 
+details. 
